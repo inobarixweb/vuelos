@@ -1,0 +1,1710 @@
+9<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkyCharter | Vuelos Privados en Argentina</title>
+  <meta name="description" content="Alquilá un avión privado para 4 o 6 personas. Vuelos privados desde aeropuertos de Argentina. Sin filas, sin esperas. Tu horario, tu destino.">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    /* =========================================
+       VARIABLES & RESET
+    ========================================= */
+    :root {
+      --primary:       #0B2045;
+      --primary-mid:   #0D2A5A;
+      --accent:        #1F5FAE;
+      --accent-light:  #3B78C4;
+      --accent-glow:   rgba(31, 95, 174, 0.35);
+      --bg:            #F7F8F9;
+      --bg-white:      #FFFFFF;
+      --text:          #0E1114;
+      --text-muted:    #6B7280;
+      --border:        #E2E5EA;
+      --wp-green:      #25D366;
+      --orange:        #DF621A;
+      --orange-glow:   rgba(223,98,26,0.35);
+      --radius-sm:     10px;
+      --radius-md:     16px;
+      --radius-lg:     24px;
+      --transition:    cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3, h4, h5 { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 28px; }
+    .section    { padding: 100px 0; }
+
+    /* =========================================
+       SCROLL REVEAL
+    ========================================= */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.75s var(--transition), transform 0.75s var(--transition);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-d1 { transition-delay: 0.10s; }
+    .reveal-d2 { transition-delay: 0.20s; }
+    .reveal-d3 { transition-delay: 0.30s; }
+    .reveal-d4 { transition-delay: 0.40s; }
+
+    /* =========================================
+       SECTION HEADER
+    ========================================= */
+    .section-header { text-align: center; margin-bottom: 64px; }
+    .section-tag {
+      display: inline-block;
+      background: rgba(31, 95, 174, 0.1);
+      color: var(--accent);
+      padding: 5px 16px; border-radius: 100px;
+      font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; margin-bottom: 14px;
+    }
+    .section-title {
+      font-size: clamp(28px, 4vw, 46px);
+      font-weight: 800; line-height: 1.15;
+      color: var(--text); margin-bottom: 14px;
+    }
+    .section-subtitle {
+      font-size: 17px; color: var(--text-muted);
+      max-width: 580px; margin: 0 auto; line-height: 1.7;
+    }
+
+    /* =========================================
+       NAVBAR
+    ========================================= */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      padding: 22px 0;
+      transition: padding 0.4s var(--transition), background 0.4s var(--transition), box-shadow 0.4s var(--transition);
+    }
+    .navbar.scrolled {
+      background: rgba(11, 32, 69, 0.96);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      padding: 14px 0;
+      box-shadow: 0 4px 40px rgba(0,0,0,0.3);
+    }
+    .navbar .container {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 10px;
+    }
+    .logo-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: var(--accent); color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 17px;
+      transition: transform 0.6s var(--transition);
+      transform-style: preserve-3d;
+    }
+    .logo:hover .logo-icon { transform: rotateY(180deg); }
+    .logo-text {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-weight: 800; font-size: 22px; color: #fff;
+      letter-spacing: -0.5px;
+    }
+    .logo-text em { font-style: normal; color: var(--accent); }
+
+    .nav-links { display: flex; align-items: center; gap: 30px; list-style: none; }
+    .nav-links a {
+      color: rgba(255,255,255,0.75); font-size: 15px; font-weight: 500;
+      transition: color 0.3s; position: relative; padding-bottom: 2px;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute;
+      bottom: -3px; left: 0; right: 0; height: 2px;
+      background: var(--accent); transform: scaleX(0);
+      transition: transform 0.3s var(--transition);
+    }
+    .nav-links a:hover { color: #fff; }
+    .nav-links a:hover::after { transform: scaleX(1); }
+
+    .nav-cta {
+      background: var(--accent) !important;
+      color: #fff !important;
+      padding: 10px 22px; border-radius: 8px;
+      font-weight: 700 !important;
+      box-shadow: 0 4px 20px var(--accent-glow);
+      transition: background 0.3s, transform 0.2s, box-shadow 0.3s !important;
+    }
+    .nav-cta::after { display: none !important; }
+    .nav-cta:hover {
+      background: var(--accent-light) !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 8px 28px var(--accent-glow) !important;
+    }
+
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 4px;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: white; border-radius: 2px;
+      transition: all 0.3s var(--transition);
+    }
+    .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile menu */
+    .mobile-menu {
+      position: fixed; inset: 0; z-index: 999;
+      background: var(--primary);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 36px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.35s var(--transition);
+    }
+    .mobile-menu.open { opacity: 1; pointer-events: all; }
+    .mobile-menu a {
+      color: white; font-size: 26px;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 700;
+      transition: color 0.3s;
+    }
+    .mobile-menu a:hover { color: var(--accent); }
+    .mobile-close {
+      position: absolute; top: 24px; right: 24px;
+      background: none; border: none; color: white;
+      font-size: 26px; cursor: pointer;
+    }
+
+    /* =========================================
+       HERO
+    ========================================= */
+    .hero {
+      position: relative; min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      overflow: hidden;
+    }
+    /* Video background */
+    .hero-video {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; z-index: 0;
+    }
+    /* Dark overlay over video */
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(
+        135deg,
+        rgba(11, 32, 69, 0.82) 0%,
+        rgba(11, 32, 69, 0.60) 60%,
+        rgba(11, 32, 69, 0.70) 100%
+      );
+    }
+    /* Animated aurora-like glow */
+    .hero-aurora {
+      position: absolute; inset: 0; pointer-events: none; z-index: 2;
+      background:
+        radial-gradient(ellipse 60% 40% at 25% 55%, rgba(31,95,174,0.14) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 30% at 75% 35%, rgba(59,120,196,0.08) 0%, transparent 60%);
+      animation: auroraPulse 7s ease-in-out infinite alternate;
+    }
+    @keyframes auroraPulse {
+      0%   { opacity: 0.6; transform: scale(1); }
+      100% { opacity: 1;   transform: scale(1.05); }
+    }
+
+    /* Grid lines — aviation style */
+    .hero-grid {
+      position: absolute; inset: 0; pointer-events: none; z-index: 2;
+      background-image:
+        linear-gradient(rgba(31,95,174,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(31,95,174,0.05) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 80%);
+    }
+
+    /* Particle canvas */
+    #heroCanvas {
+      position: absolute; inset: 0; z-index: 3;
+      width: 100%; height: 100%; pointer-events: none;
+    }
+
+    /* Split layout wrapper */
+    .hero-body {
+      position: relative; z-index: 5;
+      width: 100%; max-width: 1200px;
+      margin: 0 auto; padding: 120px 28px 100px;
+    }
+
+    /* Left — text */
+    .hero-content {
+      color: white; text-align: left;
+      max-width: 720px;
+    }
+
+    /* Right — plane visual */
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(31,95,174,0.18);
+      border: 1px solid rgba(31,95,174,0.4);
+      color: #7EB8F7; padding: 7px 18px; border-radius: 100px;
+      font-size: 13px; font-weight: 600; letter-spacing: 0.4px;
+      margin-bottom: 28px;
+      opacity: 0; animation: heroUp 0.8s 0.15s var(--transition) forwards;
+    }
+    .hero-badge i { font-size: 11px; }
+
+    .hero-title {
+      font-size: clamp(40px, 5.5vw, 80px);
+      font-weight: 700; line-height: 1.0;
+      letter-spacing: -2.5px; margin-bottom: 24px;
+      opacity: 0; animation: heroUp 0.8s 0.30s var(--transition) forwards;
+    }
+    .hero-title .t-white { display: block; color: #fff; }
+    .hero-title .t-blue  { color: #3D7EC6; }
+    #hero-word::after {
+      content: '|';
+      color: var(--accent);
+      animation: cursorBlink 0.75s step-end infinite;
+    }
+    @keyframes cursorBlink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+
+    .hero-sub {
+      font-size: clamp(15px, 1.5vw, 18px);
+      color: rgba(255,255,255,0.65); line-height: 1.65;
+      max-width: 480px; margin: 0 0 40px;
+      opacity: 0; animation: heroUp 0.8s 0.45s var(--transition) forwards;
+    }
+
+    .hero-ctas {
+      display: flex; gap: 14px; justify-content: flex-start; flex-wrap: wrap;
+      opacity: 0; animation: heroUp 0.8s 0.60s var(--transition) forwards;
+    }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 9px;
+      background: var(--accent); color: white;
+      padding: 16px 32px; border-radius: 12px;
+      font-weight: 700; font-size: 16px;
+      border: none; cursor: pointer; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      box-shadow: 0 8px 30px var(--accent-glow);
+      transition: background 0.3s, transform 0.25s, box-shadow 0.3s;
+    }
+    .btn-primary:hover {
+      background: var(--accent-light);
+      transform: translateY(-4px);
+      box-shadow: 0 14px 40px rgba(31,95,174,0.5);
+    }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 9px;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: white; padding: 16px 32px; border-radius: 12px;
+      font-weight: 600; font-size: 16px;
+      transition: background 0.3s, transform 0.25s;
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,0.16); transform: translateY(-4px); }
+    .btn-orange-full {
+      background: var(--orange) !important;
+      box-shadow: 0 8px 30px var(--orange-glow) !important;
+    }
+    .btn-orange-full:hover {
+      background: #e87a3a !important;
+      box-shadow: 0 14px 40px rgba(255,107,43,0.5) !important;
+    }
+
+    /* Stats section */
+    .stats-section {
+      background: var(--primary);
+      padding: 48px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .stats-inner {
+      display: flex; justify-content: center;
+      gap: 80px; flex-wrap: wrap;
+    }
+    .stat { text-align: center; }
+    .stat strong {
+      display: block; font-size: 40px; font-weight: 800;
+      color: var(--accent); line-height: 1;
+    }
+    .stat span { font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 6px; display: block; }
+
+    .scroll-hint {
+      position: absolute; bottom: 16px; right: 32px; z-index: 5;
+      color: rgba(255,255,255,0.3); font-size: 11px; letter-spacing: 1px;
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      text-transform: uppercase;
+      animation: scrollBounce 2.2s ease-in-out infinite;
+    }
+    @keyframes scrollBounce {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(7px); }
+    }
+
+    @keyframes heroUp {
+      from { opacity: 0; transform: translateY(32px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* =========================================
+       WHY FLY PRIVATE — two-col + stacking cards
+    ========================================= */
+    #why { background: var(--primary); padding: 0; }
+    #why .section-title    { color: #fff; text-align: left; }
+    #why .section-subtitle { color: rgba(255,255,255,0.55); text-align: left; max-width: 100%; }
+    #why .section-tag      { color: #7EB8F7; background: rgba(31,95,174,0.15); }
+
+    .why-layout {
+      max-width: 1200px; margin: 0 auto; padding: 0 28px;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: start;
+    }
+    .why-left {
+      padding: 100px 0;
+      position: sticky; top: 120px;
+    }
+    .why-right {
+      padding: 100px 0;
+      display: flex; flex-direction: column;
+      gap: 100px;
+    }
+    .why-card {
+      position: sticky; top: 120px;
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,0.11);
+      border-radius: var(--radius-lg); padding: 36px 32px;
+      transform-origin: top center;
+      will-change: transform, filter;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .why-card::before {
+      content: '';
+      position: absolute; top: 0; left: 32px; right: 32px; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+    }
+    .why-card:hover {
+      background: rgba(255,255,255,0.09);
+      border-color: rgba(255,255,255,0.18);
+    }
+    .why-card:nth-child(1) { z-index: 1; }
+    .why-card:nth-child(2) { z-index: 2; }
+    .why-card:nth-child(3) { z-index: 3; }
+    .why-card:nth-child(4) { z-index: 4; }
+    .why-icon {
+      width: 54px; height: 54px; border-radius: 14px;
+      background: rgba(31,95,174,0.30);
+      display: flex; align-items: center; justify-content: center;
+      color: #7EB8F7; font-size: 22px; margin-bottom: 20px;
+    }
+    .why-card h3 { color: #fff; font-size: 19px; font-weight: 700; margin-bottom: 10px; }
+    .why-card p  { color: rgba(255,255,255,0.65); font-size: 15px; line-height: 1.65; }
+
+    /* =========================================
+       SERVICES
+    ========================================= */
+    #servicios { background: var(--bg); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+    }
+    .service-card {
+      background: var(--bg-white);
+      border-radius: var(--radius-lg); overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.05);
+      transition: transform 0.4s var(--transition), box-shadow 0.4s var(--transition);
+      will-change: transform;
+      transform-style: preserve-3d;
+    }
+    .service-card:hover {
+      box-shadow: 0 28px 64px rgba(31,95,174,0.12);
+    }
+    .svc-header {
+      height: 230px; padding: 0;
+      position: relative; overflow: hidden;
+      display: flex; align-items: flex-end;
+    }
+    .svc-header::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: var(--img, linear-gradient(135deg, var(--primary) 0%, var(--primary-mid) 100%)) center/cover no-repeat;
+      transition: transform 0.65s var(--transition);
+    }
+    .svc-header::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(11,32,69,0.15) 0%, rgba(11,32,69,0.90) 100%);
+    }
+    .service-card:hover .svc-header::before { transform: scale(1.06); }
+    .svc-pax {
+      padding: 20px 28px;
+      font-size: 30px; font-weight: 900; color: white;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 1.1;
+      letter-spacing: -0.5px; position: relative; z-index: 1;
+    }
+    .svc-pax em { font-style: normal; font-size: 13px; color: var(--accent-light); display: block; margin-top: 5px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; opacity: 0.85; }
+    .svc-body { padding: 36px; }
+    .svc-body h3 { font-size: 22px; font-weight: 700; margin-bottom: 10px; }
+    .svc-body > p { color: var(--text-muted); line-height: 1.65; margin-bottom: 24px; font-size: 15px; }
+    .svc-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .svc-list li { display: flex; align-items: center; gap: 11px; font-size: 15px; }
+    .svc-list li i { color: var(--accent); font-size: 13px; flex-shrink: 0; }
+    .svc-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 28px; background: none; border: 1.5px solid var(--accent);
+      color: var(--accent); padding: 11px 22px; border-radius: 9px;
+      font-weight: 600; font-size: 15px; cursor: pointer;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      transition: background 0.3s, color 0.3s, transform 0.25s;
+    }
+    .svc-cta:hover { background: var(--accent); color: white; transform: translateY(-3px); }
+
+    /* =========================================
+       FLEET  (3-D flip cards)
+    ========================================= */
+    #flota { background: var(--primary); }
+    #flota .section-title   { color: #fff; }
+    #flota .section-subtitle { color: rgba(255,255,255,0.55); }
+    #flota .section-tag { color: #7EB8F7; background: rgba(31,95,174,0.15); }
+
+    .fleet-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 26px;
+    }
+    .fleet-card { perspective: 1100px; height: 390px; cursor: pointer; }
+    .fleet-inner {
+      width: 100%; height: 100%; position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.75s var(--transition);
+    }
+    .fleet-card:hover .fleet-inner { transform: rotateY(180deg); }
+
+    .fleet-front, .fleet-back {
+      position: absolute; inset: 0;
+      border-radius: var(--radius-lg); overflow: hidden;
+      backface-visibility: hidden;
+    }
+    .fleet-front {
+      background: linear-gradient(
+        180deg,
+        rgba(11,32,69,0) 35%,
+        rgba(11,32,69,0.97) 100%
+      ), var(--img, #111) center/cover no-repeat;
+    }
+    .fleet-flip-badge {
+      position: absolute; top: 14px; right: 14px;
+      background: rgba(31,95,174,0.85); color: white;
+      padding: 4px 11px; border-radius: 6px; font-size: 12px; font-weight: 600;
+    }
+    .fleet-front-info {
+      position: absolute; bottom: 0; padding: 24px;
+    }
+    .fleet-front-info h3 { color: white; font-size: 22px; font-weight: 700; margin-bottom: 3px; }
+    .fleet-front-info p  { color: rgba(255,255,255,0.65); font-size: 14px; }
+
+    .fleet-back {
+      transform: rotateY(180deg);
+      background: linear-gradient(145deg, #0d2a58 0%, #0B2045 100%);
+      border: 1px solid rgba(31,95,174,0.2);
+      display: flex; flex-direction: column;
+      justify-content: center; padding: 32px;
+    }
+    .fleet-back h3 { color: white; font-size: 22px; font-weight: 700; margin-bottom: 22px; }
+    .fleet-specs { display: flex; flex-direction: column; gap: 14px; }
+    .spec-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .spec-row:last-child { border-bottom: none; }
+    .spec-row span:first-child { color: rgba(255,255,255,0.45); font-size: 14px; }
+    .spec-row span:last-child  { color: #fff; font-weight: 600; font-size: 14px; }
+
+    .fleet-btn {
+      margin-top: 26px; width: 100%; padding: 13px;
+      background: var(--accent); color: white; border: none;
+      border-radius: var(--radius-sm); font-size: 15px; font-weight: 700;
+      cursor: pointer; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      transition: background 0.3s, transform 0.2s;
+    }
+    .fleet-btn:hover { background: var(--accent-light); transform: scale(1.02); }
+
+    /* =========================================
+       DESTINATIONS
+    ========================================= */
+    #destinos { background: var(--bg); }
+    .dest-mosaic {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: 300px 260px;
+      gap: 16px;
+    }
+    .dest-card {
+      position: relative; border-radius: var(--radius-lg);
+      overflow: hidden; cursor: pointer;
+    }
+    .dest-card:nth-child(1) { grid-column: 1 / 3; }
+    .dest-card img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.7s var(--transition);
+    }
+    .dest-card:hover img { transform: scale(1.1); }
+    .dest-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 25%, rgba(11,32,69,0.88) 100%);
+      transition: background 0.4s;
+    }
+    .dest-card:hover .dest-overlay {
+      background: linear-gradient(180deg, rgba(31,95,174,0.08) 0%, rgba(11,32,69,0.92) 100%);
+    }
+    .dest-info {
+      position: absolute; bottom: 0; padding: 22px;
+    }
+    .dest-badge {
+      display: inline-block; background: var(--accent); color: white;
+      padding: 3px 10px; border-radius: 5px; font-size: 11px; font-weight: 700;
+      margin-bottom: 7px; letter-spacing: 0.3px;
+    }
+    .dest-info h3 { color: white; font-size: 19px; font-weight: 700; margin-bottom: 3px; }
+    .dest-info p  { color: rgba(255,255,255,0.65); font-size: 13px; line-height: 1.5; }
+    .dest-link {
+      display: inline-flex; align-items: center; gap: 5px;
+      color: #7EB8F7; font-size: 13px; font-weight: 600;
+      margin-top: 8px;
+      opacity: 0; transform: translateX(-8px);
+      transition: opacity 0.35s, transform 0.35s;
+    }
+    .dest-card:hover .dest-link { opacity: 1; transform: translateX(0); }
+
+    /* =========================================
+       ABOUT / EMPRESA
+    ========================================= */
+    #empresa { background: var(--bg-white); }
+    .about-wrap {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+    .about-visual { position: relative; }
+    .about-photo {
+      border-radius: var(--radius-lg); overflow: hidden;
+      box-shadow: 0 32px 80px rgba(11,32,69,0.14);
+    }
+    .about-photo img {
+      width: 100%; height: 420px; object-fit: cover;
+      transition: transform 0.6s var(--transition);
+    }
+    .about-photo:hover img { transform: scale(1.04); }
+    .about-badge {
+      position: absolute; bottom: -22px; right: -22px;
+      background: var(--accent); color: white;
+      padding: 22px 26px; border-radius: 18px;
+      box-shadow: 0 12px 40px rgba(31,95,174,0.4);
+    }
+    .about-badge strong { display: block; font-size: 30px; font-weight: 900; line-height: 1; }
+    .about-badge span   { font-size: 13px; opacity: 0.9; margin-top: 4px; display: block; }
+
+    .about-content .section-tag,
+    .about-content .section-title { text-align: left; }
+    .about-content p {
+      color: var(--text-muted); line-height: 1.75; font-size: 16px; margin-bottom: 16px;
+    }
+    .trust-list { display: flex; flex-direction: column; gap: 16px; margin-top: 32px; }
+    .trust-item { display: flex; gap: 16px; align-items: flex-start; }
+    .trust-icon {
+      width: 46px; height: 46px; min-width: 46px; border-radius: 12px;
+      background: rgba(31,95,174,0.1);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent); font-size: 19px;
+    }
+    .trust-text h4 { font-size: 15px; font-weight: 700; margin-bottom: 3px; }
+    .trust-text p  { font-size: 14px; color: var(--text-muted); line-height: 1.55; }
+
+    /* =========================================
+       CONTACT / COTIZACIÓN
+    ========================================= */
+    #contacto { background: var(--bg); }
+    .contact-wrap {
+      display: grid; grid-template-columns: 1fr 1.1fr;
+      gap: 56px; align-items: start;
+    }
+    .contact-left h3 {
+      font-size: 28px; font-weight: 800; margin-bottom: 14px; line-height: 1.2;
+    }
+    .contact-left > p { color: var(--text-muted); font-size: 16px; line-height: 1.7; margin-bottom: 32px; }
+    .contact-methods { display: flex; flex-direction: column; gap: 14px; }
+    .c-method {
+      display: flex; align-items: center; gap: 14px;
+      background: var(--bg-white); padding: 16px 20px;
+      border-radius: var(--radius-md);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .c-method:hover { transform: translateX(6px); box-shadow: 0 6px 24px rgba(31,95,174,0.1); }
+    .c-icon {
+      width: 44px; height: 44px; border-radius: 11px;
+      display: flex; align-items: center; justify-content: center; font-size: 20px;
+      flex-shrink: 0;
+    }
+    .c-icon.wp    { background: var(--wp-green); color: white; }
+    .c-icon.mail  { background: var(--accent);   color: white; }
+    .c-text strong { display: block; font-size: 15px; font-weight: 700; }
+    .c-text span   { font-size: 13px; color: var(--text-muted); }
+
+    /* Form */
+    .quote-form {
+      background: var(--bg-white); border-radius: var(--radius-lg); padding: 40px;
+      box-shadow: 0 8px 48px rgba(0,0,0,0.06);
+    }
+    .quote-form h3 { font-size: 22px; font-weight: 800; margin-bottom: 24px; }
+    .f-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .f-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+    .f-group label { font-size: 13px; font-weight: 600; color: var(--text); letter-spacing: 0.2px; }
+    .f-group input,
+    .f-group select,
+    .f-group textarea {
+      padding: 12px 16px; border-radius: var(--radius-sm);
+      border: 1.5px solid var(--border);
+      font-size: 15px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      color: var(--text); background: var(--bg);
+      outline: none; transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .f-group input:focus,
+    .f-group select:focus,
+    .f-group textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(31,95,174,0.1);
+      background: #fff;
+    }
+    .f-group textarea { resize: vertical; min-height: 90px; }
+    .f-submit {
+      width: 100%; padding: 16px; border: none; border-radius: 12px;
+      background: var(--accent); color: white;
+      font-size: 16px; font-weight: 700; cursor: pointer;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      display: flex; align-items: center; justify-content: center; gap: 9px;
+      box-shadow: 0 6px 24px var(--accent-glow);
+      transition: background 0.3s, transform 0.25s, box-shadow 0.3s;
+    }
+    .f-submit:hover {
+      background: var(--accent-light);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 32px rgba(31,95,174,0.4);
+    }
+    .f-submit.sent { background: #10B981; }
+
+    /* =========================================
+       WHATSAPP FLOAT
+    ========================================= */
+    .wp-float {
+      position: fixed; bottom: 26px; right: 26px; z-index: 998;
+      width: 58px; height: 58px; border-radius: 50%;
+      background: var(--wp-green); color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 27px;
+      box-shadow: 0 6px 28px rgba(37,211,102,0.45);
+      transition: transform 0.3s var(--transition), box-shadow 0.3s;
+      animation: wpPulse 2.5s ease-in-out infinite;
+    }
+    .wp-float:hover {
+      transform: scale(1.14);
+      box-shadow: 0 10px 40px rgba(37,211,102,0.55);
+    }
+    @keyframes wpPulse {
+      0%, 100% { box-shadow: 0 6px 28px rgba(37,211,102,0.45); }
+      50%       { box-shadow: 0 6px 28px rgba(37,211,102,0.45), 0 0 0 10px rgba(37,211,102,0.12); }
+    }
+
+    /* =========================================
+       FOOTER
+    ========================================= */
+    footer {
+      background: var(--primary);
+      padding: 64px 0 30px;
+      color: rgba(255,255,255,0.55);
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 1.8fr 1fr 1fr;
+      gap: 48px; margin-bottom: 48px;
+    }
+    .footer-brand p {
+      font-size: 15px; line-height: 1.7; margin: 16px 0;
+      color: rgba(255,255,255,0.4); max-width: 270px;
+    }
+    .footer-col-title {
+      color: white; font-weight: 700; font-size: 15px; margin-bottom: 16px;
+    }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a {
+      color: rgba(255,255,255,0.45); font-size: 15px;
+      transition: color 0.3s;
+    }
+    .footer-links a:hover { color: var(--accent); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding-top: 24px; display: flex;
+      justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+    }
+    .footer-bottom p { font-size: 13px; color: rgba(255,255,255,0.28); }
+    .footer-bottom strong { color: rgba(255,255,255,0.45); }
+
+    /* =========================================
+       RESPONSIVE
+    ========================================= */
+    /* =========================================
+       INVESTORS
+    ========================================= */
+    #inversores { background: var(--primary); }
+    #inversores .section-title { color: #fff; }
+    #inversores .section-subtitle { color: rgba(255,255,255,0.55); }
+    .inv-tag { color: var(--accent) !important; background: rgba(31,95,174,0.15) !important; }
+    .t-orange { color: var(--accent); }
+
+    .inv-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 22px; margin-bottom: 48px;
+    }
+    .inv-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius-lg); padding: 36px 28px;
+      transition: background 0.35s, border-color 0.35s, box-shadow 0.35s;
+    }
+    .inv-card:hover {
+      background: rgba(31,95,174,0.08);
+      border-color: rgba(31,95,174,0.25);
+      box-shadow: 0 20px 60px rgba(31,95,174,0.1);
+    }
+    .inv-icon {
+      width: 54px; height: 54px; border-radius: 14px;
+      background: rgba(31,95,174,0.2);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent); font-size: 22px; margin-bottom: 20px;
+      transition: transform 0.4s var(--transition);
+    }
+    .inv-card:hover .inv-icon { transform: scale(1.1) rotate(6deg); }
+    .inv-card h3 { color: #fff; font-size: 19px; font-weight: 700; margin-bottom: 10px; }
+    .inv-card p  { color: rgba(255,255,255,0.55); font-size: 15px; line-height: 1.65; }
+
+    .inv-cta-wrap {
+      display: flex; flex-direction: column; align-items: center; gap: 28px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(31,95,174,0.2);
+      border-radius: var(--radius-lg); padding: 40px;
+      text-align: center;
+    }
+    .inv-highlight {
+      display: flex; align-items: center; gap: 20px; color: white;
+    }
+    .inv-highlight > i { font-size: 36px; color: var(--accent); flex-shrink: 0; }
+    .inv-highlight div { text-align: left; }
+    .inv-highlight strong { display: block; font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+    .inv-highlight span   { font-size: 14px; color: rgba(255,255,255,0.5); }
+
+    @media (max-width: 1024px) {
+      .about-wrap { grid-template-columns: 1fr; gap: 40px; }
+      .about-visual { display: none; }
+      .contact-wrap { grid-template-columns: 1fr; gap: 40px; }
+      .footer-grid  { grid-template-columns: 1fr 1fr; }
+      .dest-mosaic  { grid-template-rows: 260px 220px; }
+    }
+
+    @media (max-width: 768px) {
+      .section { padding: 72px 0; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .hero-body { grid-template-columns: 1fr; padding: 100px 28px 80px; }
+      .hero-content { text-align: center; }
+      .hero-sub { margin: 0 auto 40px; max-width: 100%; }
+      .hero-ctas { justify-content: center; }
+      .stat strong { font-size: 28px; }
+      .stats-inner { gap: 40px; }
+      .dest-mosaic {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 240px 200px;
+      }
+      .dest-card:nth-child(1) { grid-column: 1 / -1; }
+      .fleet-grid { grid-template-columns: 1fr; }
+      .fleet-card { height: 340px; }
+      .why-layout { grid-template-columns: 1fr; gap: 0; }
+      .why-left   { position: static; top: auto; padding: 72px 0 36px; }
+      .why-right  { padding: 0 0 72px; gap: 80px; }
+      .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+      .f-row { grid-template-columns: 1fr; }
+      .quote-form { padding: 28px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title { letter-spacing: -1.5px; }
+      .hero-ctas { flex-direction: column; align-items: stretch; }
+      .btn-primary, .btn-ghost { justify-content: center; }
+      .dest-mosaic {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(5, 220px);
+      }
+      .dest-card:nth-child(1) { grid-column: 1; }
+      .services-grid { grid-template-columns: 1fr; }
+      .stats-inner { gap: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ==========================================
+     NAVBAR
+=========================================== -->
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <a href="#" class="logo" aria-label="SkyCharter inicio">
+      <div class="logo-icon"><i class="fas fa-plane"></i></div>
+      <span class="logo-text">Sky<em>Charter</em></span>
+    </a>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#why">¿Por qué?</a></li>
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#flota">Flota</a></li>
+      <li><a href="#destinos">Destinos</a></li>
+      <li><a href="#empresa">Empresa</a></li>
+      <li><a href="#inversores">Inversores</a></li>
+      <li><a href="#contacto" class="nav-cta">Cotizar vuelo</a></li>
+    </ul>
+
+    <button class="hamburger" id="hamburger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true">
+  <button class="mobile-close" id="mobileClose" aria-label="Cerrar menú">
+    <i class="fas fa-times"></i>
+  </button>
+  <a href="#why"       onclick="closeMenu()">¿Por qué privado?</a>
+  <a href="#servicios" onclick="closeMenu()">Servicios</a>
+  <a href="#flota"     onclick="closeMenu()">Flota</a>
+  <a href="#destinos"  onclick="closeMenu()">Destinos</a>
+  <a href="#empresa"   onclick="closeMenu()">Empresa</a>
+  <a href="#inversores" onclick="closeMenu()">Inversores</a>
+  <a href="#contacto"  onclick="closeMenu()" class="btn-primary">Cotizar vuelo</a>
+</div>
+
+<!-- ==========================================
+     HERO
+=========================================== -->
+<section class="hero" id="home">
+  <!-- Reemplazar src con el video del cliente cuando esté disponible -->
+  <video class="hero-video" autoplay muted loop playsinline preload="auto">
+    <source src="image/video-avion.mp4" type="video/mp4">
+  </video>
+  <div class="hero-bg"></div>
+  <div class="hero-aurora"></div>
+  <div class="hero-grid"></div>
+  <canvas id="heroCanvas"></canvas>
+
+  <div class="hero-body">
+
+    <!-- LEFT: text -->
+    <div class="hero-content">
+      <div class="hero-badge">
+        <i class="fas fa-circle" style="font-size:7px; color: #4ade80;"></i>
+        Aviación privada · Argentina & el mundo
+      </div>
+
+      <h1 class="hero-title">
+        <span class="t-white">Volá <span class="t-blue" id="hero-word">diferente,</span></span>
+        <span class="t-white">llegá antes.</span>
+      </h1>
+
+      <p class="hero-sub">
+        Piper Archer, Learjet 60 o Gulfstream GV.<br>
+        Desde un vuelo bautismo hasta cruzar el Atlántico. Vos elegís.
+      </p>
+
+      <div class="hero-ctas">
+        <a href="https://wa.me/5491100000000" target="_blank" rel="noopener" class="btn-primary btn-orange-full">
+          <i class="fab fa-whatsapp"></i> Escribinos por WhatsApp
+        </a>
+        <a href="#servicios" class="btn-ghost">
+          <i class="fas fa-chevron-down"></i> Ver servicios
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <i class="fas fa-chevron-down"></i>
+  </div>
+</section>
+
+<div class="stats-section">
+  <div class="container">
+    <div class="stats-inner">
+      <div class="stat">
+        <strong id="stat1">3</strong>
+        <span>Aeronaves disponibles</span>
+      </div>
+      <div class="stat">
+        <strong id="stat2">0</strong>
+        <span>Tiempo de espera</span>
+      </div>
+      <div class="stat">
+        <strong id="stat3">4</strong>
+        <span>Continentes alcanzados</span>
+      </div>
+      <div class="stat">
+        <strong id="stat4">24hs</strong>
+        <span>Disponibilidad</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================
+     WHY FLY PRIVATE
+=========================================== -->
+<section id="why">
+  <div class="why-layout">
+
+    <!-- LEFT: sticky text -->
+    <div class="why-left reveal">
+      <span class="section-tag">¿Por qué vuelo privado?</span>
+      <h2 class="section-title" style="margin-top:14px">Hay momentos que merecen otro nivel de comodidad</h2>
+      <p class="section-subtitle" style="margin-top:14px">Un vuelo privado no es solo lujo. Es eficiencia, privacidad y llegar exactamente cuando necesitás.</p>
+    </div>
+
+    <!-- RIGHT: stacking cards -->
+    <div class="why-right" id="whyRight">
+      <div class="why-card">
+        <div class="why-icon"><i class="fas fa-futbol"></i></div>
+        <h3>Eventos y partidos</h3>
+        <p>Volá a Córdoba para el partido del domingo y volvés esa misma noche. Sin escalas, sin conexiones, sin apuro.</p>
+      </div>
+
+
+      <div class="why-card">
+        <div class="why-icon"><i class="fas fa-briefcase"></i></div>
+        <h3>Reuniones de negocios</h3>
+        <p>Viaje de trabajo a destinos sin vuelo regular. Ida y vuelta en el día, sin perder tiempo valioso.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon"><i class="fas fa-glass-cheers"></i></div>
+        <h3>Despedidas y cumpleaños</h3>
+        <p>Escapadas grupales memorables: Uruguay, Mendoza, cualquier destino. Toda la experiencia, sin trámites.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon"><i class="fas fa-bolt"></i></div>
+        <h3>Traslados eficientes</h3>
+        <p>Cuando tu tiempo vale más que el costo del billete. Llegás en una fracción del tiempo habitual.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ==========================================
+     SERVICES
+=========================================== -->
+<section class="section" id="servicios">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-tag">Nuestros servicios</span>
+      <h2 class="section-title">Tres aeronaves,<br>tres experiencias</h2>
+      <p class="section-subtitle">De vuelos bautismo a destinos intercontinentales. Sin filas, sin check-in, sin esperas. Tu horario, tu destino.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal reveal-d1 tilt-card">
+        <div class="svc-header" style="--img: url('image/piper archer/FP_Piper-Archer-II-Article-10.jpg')">
+          <div class="svc-pax">Piper<em>Archer</em></div>
+        </div>
+        <div class="svc-body">
+          <h3>Bautismo & Turismo</h3>
+          <p>Tu primer vuelo o una escapada corta a bordo. La forma más accesible de volar privado y vivir la experiencia desde adentro.</p>
+          <ul class="svc-list">
+            <li><i class="fas fa-check-circle"></i> Vuelos bautismo — primera experiencia aérea</li>
+            <li><i class="fas fa-check-circle"></i> Isla Martín García · Colonia · Montevideo</li>
+            <li><i class="fas fa-check-circle"></i> Hasta 3 pasajeros</li>
+            <li><i class="fas fa-check-circle"></i> Opción más económica de la flota</li>
+            <li><i class="fas fa-check-circle"></i> Ideal para regalos y experiencias únicas</li>
+          </ul>
+          <button class="svc-cta" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">
+            <i class="fas fa-paper-plane"></i> Consultar precio
+          </button>
+        </div>
+      </div>
+
+      <div class="service-card reveal reveal-d2 tilt-card">
+        <div class="svc-header" style="--img: url('image/learjet 60/learget 60.jpg')">
+          <div class="svc-pax">Learjet<em>60</em></div>
+        </div>
+        <div class="svc-body">
+          <h3>Charter Regional</h3>
+          <p>Jet ejecutivo para rutas dentro de Argentina y países limítrofes. Velocidad real, cabina privada, sin escalas.</p>
+          <ul class="svc-list">
+            <li><i class="fas fa-check-circle"></i> Hasta 8 pasajeros</li>
+            <li><i class="fas fa-check-circle"></i> Argentina · Uruguay · Chile · Paraguay · Bolivia</li>
+            <li><i class="fas fa-check-circle"></i> 870 km/h de velocidad crucero</li>
+            <li><i class="fas fa-check-circle"></i> Cabina ejecutiva con total privacidad</li>
+            <li><i class="fas fa-check-circle"></i> Ida y vuelta en el día</li>
+          </ul>
+          <button class="svc-cta" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">
+            <i class="fas fa-paper-plane"></i> Consultar disponibilidad
+          </button>
+        </div>
+      </div>
+
+      <div class="service-card reveal reveal-d3 tilt-card">
+        <div class="svc-header" style="--img: url('image/Gulfstream GV/GV-Exterior-JS.jpg')">
+          <div class="svc-pax">Gulfstream<em>GV</em></div>
+        </div>
+        <div class="svc-body">
+          <h3>Charter Internacional</h3>
+          <p>El avión de largo alcance de la flota. Brasil, Estados Unidos, Europa y África sin escalas desde Argentina.</p>
+          <ul class="svc-list">
+            <li><i class="fas fa-check-circle"></i> Hasta 14 pasajeros</li>
+            <li><i class="fas fa-check-circle"></i> 11.000 km de autonomía</li>
+            <li><i class="fas fa-check-circle"></i> Brasil norte · EEUU · Europa · África</li>
+            <li><i class="fas fa-check-circle"></i> Cabina de largo radio totalmente equipada</li>
+            <li><i class="fas fa-check-circle"></i> Vuelos intercontinentales sin escalas</li>
+          </ul>
+          <button class="svc-cta" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">
+            <i class="fas fa-paper-plane"></i> Consultar disponibilidad
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================
+     FLEET  (3-D flip cards)
+=========================================== -->
+<section class="section" id="flota">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-tag">Nuestra flota</span>
+      <h2 class="section-title">Aeronaves disponibles</h2>
+      <p class="section-subtitle">Tres aeronaves para tres tipos de experiencia. Pasá el cursor sobre cada una para ver las especificaciones técnicas.</p>
+    </div>
+    <div class="fleet-grid">
+
+      <!-- Piper Archer -->
+      <div class="fleet-card reveal reveal-d1">
+        <div class="fleet-inner">
+          <div class="fleet-front" style="--img: url('image/piper archer/FP_Piper-Archer-II-Article-10.jpg')">
+            <div class="fleet-flip-badge">Ver specs →</div>
+            <div class="fleet-front-info">
+              <h3>Piper Archer</h3>
+              <p>3 pasajeros · Monomotor · Bautismo & Turismo</p>
+            </div>
+          </div>
+          <div class="fleet-back">
+            <h3>Piper Archer</h3>
+            <div class="fleet-specs">
+              <div class="spec-row"><span>Capacidad</span><span>3 pasajeros</span></div>
+              <div class="spec-row"><span>Velocidad crucero</span><span>240 km/h</span></div>
+              <div class="spec-row"><span>Autonomía</span><span>1.000 km</span></div>
+              <div class="spec-row"><span>Motor</span><span>Lycoming O-360, 180 HP</span></div>
+              <div class="spec-row"><span>Rutas</span><span>Martín García · Colonia · Mvd</span></div>
+            </div>
+            <button class="fleet-btn" onclick="scrollTo('contacto')">Cotizar este avión</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Learjet 60 -->
+      <div class="fleet-card reveal reveal-d2">
+        <div class="fleet-inner">
+          <div class="fleet-front" style="--img: url('image/learjet 60/learget 60.jpg')">
+            <div class="fleet-flip-badge">Ver specs →</div>
+            <div class="fleet-front-info">
+              <h3>Learjet 60</h3>
+              <p>8 pasajeros · Jet ejecutivo · Regional</p>
+            </div>
+          </div>
+          <div class="fleet-back">
+            <h3>Learjet 60</h3>
+            <div class="fleet-specs">
+              <div class="spec-row"><span>Capacidad</span><span>8 pasajeros</span></div>
+              <div class="spec-row"><span>Velocidad crucero</span><span>870 km/h</span></div>
+              <div class="spec-row"><span>Autonomía</span><span>4.800 km</span></div>
+              <div class="spec-row"><span>Motores</span><span>2× Pratt & Whitney PW305A</span></div>
+              <div class="spec-row"><span>Alcance</span><span>Argentina y países limítrofes</span></div>
+            </div>
+            <button class="fleet-btn" onclick="scrollTo('contacto')">Cotizar este avión</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gulfstream GV -->
+      <div class="fleet-card reveal reveal-d3">
+        <div class="fleet-inner">
+          <div class="fleet-front" style="--img: url('image/Gulfstream GV/GV-Exterior-JS.jpg')">
+            <div class="fleet-flip-badge">Ver specs →</div>
+            <div class="fleet-front-info">
+              <h3>Gulfstream GV</h3>
+              <p>14 pasajeros · Gran alcance · Internacional</p>
+            </div>
+          </div>
+          <div class="fleet-back">
+            <h3>Gulfstream GV</h3>
+            <div class="fleet-specs">
+              <div class="spec-row"><span>Capacidad</span><span>hasta 14 pasajeros</span></div>
+              <div class="spec-row"><span>Velocidad crucero</span><span>904 km/h</span></div>
+              <div class="spec-row"><span>Autonomía</span><span>11.000 km</span></div>
+              <div class="spec-row"><span>Motores</span><span>2× Rolls-Royce BR710</span></div>
+              <div class="spec-row"><span>Alcance</span><span>Brasil · EEUU · Europa · África</span></div>
+            </div>
+            <button class="fleet-btn" onclick="scrollTo('contacto')">Cotizar este avión</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================
+     DESTINATIONS
+=========================================== -->
+<section class="section" id="destinos">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-tag">Experiencias & Destinos</span>
+      <h2 class="section-title">¿A dónde querés ir?</h2>
+      <p class="section-subtitle">Desde una escapada corta hasta cruzar un océano. La distancia no es límite — depende de qué aeronave elegís.</p>
+    </div>
+    <div class="dest-mosaic">
+
+      <div class="dest-card reveal reveal-d1" onclick="scrollTo('contacto')">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=900&q=80" alt="Martín García · Colonia · Montevideo">
+        <div class="dest-overlay"></div>
+        <div class="dest-info">
+          <span class="dest-badge">Piper Archer · ~1 hora</span>
+          <h3>Martín García · Colonia · Montevideo</h3>
+          <p>Escapadas cortas y vuelos bautismo. El destino perfecto para tu primera vez en privado o una tarde diferente.</p>
+          <div class="dest-link">Consultar disponibilidad <i class="fas fa-arrow-right"></i></div>
+        </div>
+      </div>
+
+      <div class="dest-card reveal reveal-d2" onclick="scrollTo('contacto')">
+        <img src="https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?w=600&q=80" alt="Norte de Brasil">
+        <div class="dest-overlay"></div>
+        <div class="dest-info">
+          <span class="dest-badge">Gulfstream GV · ~4 horas</span>
+          <h3>→ Norte de Brasil</h3>
+          <p>Río de Janeiro, São Paulo, Fortaleza. Directo desde Buenos Aires, sin escalas, en cabina de largo alcance.</p>
+          <div class="dest-link">Consultar <i class="fas fa-arrow-right"></i></div>
+        </div>
+      </div>
+
+      <div class="dest-card reveal reveal-d3" onclick="scrollTo('contacto')">
+        <img src="https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=600&q=80" alt="Miami · EEUU">
+        <div class="dest-overlay"></div>
+        <div class="dest-info">
+          <span class="dest-badge">Gulfstream GV · ~10 horas</span>
+          <h3>→ Miami · Nueva York</h3>
+          <p>El Gulfstream GV llega a Estados Unidos sin escalas. 11.000 km de autonomía para los que van lejos de verdad.</p>
+          <div class="dest-link">Consultar <i class="fas fa-arrow-right"></i></div>
+        </div>
+      </div>
+
+      <div class="dest-card reveal reveal-d4" onclick="scrollTo('contacto')">
+        <img src="https://images.unsplash.com/photo-1501854140801-50d01698950b?w=600&q=80" alt="Patagonia">
+        <div class="dest-overlay"></div>
+        <div class="dest-info">
+          <span class="dest-badge">Learjet 60 · ~3 horas</span>
+          <h3>→ Patagonia</h3>
+          <p>Bariloche, El Calafate, Puerto Madryn. El Learjet 60 te lleva rápido donde otros tardan un día.</p>
+          <div class="dest-link">Consultar <i class="fas fa-arrow-right"></i></div>
+        </div>
+      </div>
+
+      <div class="dest-card reveal reveal-d1" onclick="scrollTo('contacto')">
+        <img src="https://images.unsplash.com/photo-1534008897995-27a23e859048?w=600&q=80" alt="Santiago de Chile">
+        <div class="dest-overlay"></div>
+        <div class="dest-info">
+          <span class="dest-badge">Learjet 60 · ~2 horas</span>
+          <h3>→ Santiago de Chile</h3>
+          <p>Cruzar la cordillera en privado. Para negocios, turismo o simplemente porque podés.</p>
+          <div class="dest-link">Consultar <i class="fas fa-arrow-right"></i></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================
+     ABOUT
+=========================================== -->
+<section class="section" id="empresa">
+  <div class="container">
+    <div class="about-wrap">
+
+      <div class="about-visual reveal">
+        <div class="about-photo">
+          <img src="https://images.unsplash.com/photo-1614494151557-b3c4d7e0c98c?w=800&q=80" alt="Nuestra operación">
+        </div>
+        <div class="about-badge">
+          <strong>ANAC</strong>
+          <span>Operación certificada</span>
+        </div>
+      </div>
+
+      <div class="about-content reveal reveal-d2">
+        <span class="section-tag" style="display:inline-block; text-align:left;">Sobre SkyCharter</span>
+        <h2 class="section-title" style="text-align:left;">Vuelos privados<br>con seriedad operativa</h2>
+        <p>Somos una empresa argentina especializada en el alquiler de aeronaves para vuelos privados. Trabajamos con pilotos certificados, flota en regla y un compromiso real con la seguridad y la puntualidad.</p>
+        <p>Nuestra propuesta es simple: que cualquier persona o grupo pueda acceder a la comodidad y eficiencia de volar en privado, sin que sea complicado ni reservado solo para unos pocos.</p>
+        <div class="trust-list">
+          <div class="trust-item">
+            <div class="trust-icon"><i class="fas fa-shield-alt"></i></div>
+            <div class="trust-text">
+              <h4>Seguridad certificada</h4>
+              <p>Pilotos habilitados y flota con mantenimiento al día, bajo normativa ANAC Argentina.</p>
+            </div>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon"><i class="fas fa-map-marked-alt"></i></div>
+            <div class="trust-text">
+              <h4>Red de aeropuertos</h4>
+              <p>Salidas desde Buenos Aires y los principales aeropuertos del país.</p>
+            </div>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon"><i class="fas fa-headset"></i></div>
+            <div class="trust-text">
+              <h4>Atención directa</h4>
+              <p>Hablás con la persona que organiza tu vuelo. Sin intermediarios, sin call center.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================
+     INVESTORS / TOKENIZACIÓN
+=========================================== -->
+<section class="section" id="inversores">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-tag inv-tag">Inversores</span>
+      <h2 class="section-title">Sé parte de<br><span class="t-orange">SkyCharter</span></h2>
+      <p class="section-subtitle">Tokenizamos la empresa para que cualquiera pueda invertir en aviación privada. Bajo punto de entrada, alta transparencia, industria en crecimiento.</p>
+    </div>
+    <div class="inv-grid">
+      <div class="inv-card reveal reveal-d1">
+        <div class="inv-icon"><i class="fas fa-coins"></i></div>
+        <h3>Bajo punto de entrada</h3>
+        <p>Participá con inversiones de bajo valor. La tokenización hace accesible lo que antes estaba reservado para grandes inversores.</p>
+      </div>
+      <div class="inv-card reveal reveal-d2">
+        <div class="inv-icon"><i class="fas fa-chart-line"></i></div>
+        <h3>Negocio con demanda real</h3>
+        <p>La aviación ejecutiva en Argentina crece año a año. Invertís en una empresa con flota propia, operaciones concretas y clientes activos.</p>
+      </div>
+      <div class="inv-card reveal reveal-d3">
+        <div class="inv-icon"><i class="fas fa-link"></i></div>
+        <h3>Tokens blockchain</h3>
+        <p>Tu inversión respaldada por tecnología blockchain. Total transparencia, transferible, trazable desde el primer día.</p>
+      </div>
+      <div class="inv-card reveal reveal-d4">
+        <div class="inv-icon"><i class="fas fa-users"></i></div>
+        <h3>Comunidad de co-propietarios</h3>
+        <p>Accedé a resultados exclusivos, actualizaciones de la empresa y participá de las decisiones como parte del negocio.</p>
+      </div>
+    </div>
+    <div class="inv-cta-wrap reveal">
+      <div class="inv-highlight">
+        <i class="fas fa-rocket"></i>
+        <div>
+          <strong>Próximamente: ronda de inversión abierta</strong>
+          <span>Registrate ahora para recibir toda la información antes que nadie y asegurar tu lugar</span>
+        </div>
+      </div>
+      <a href="https://wa.me/5491100000000" target="_blank" rel="noopener" class="btn-primary btn-orange-full">
+        <i class="fab fa-whatsapp"></i> Quiero invertir — consultame por WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================
+     CONTACT
+=========================================== -->
+<section class="section" id="contacto">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-tag">Contacto & Cotización</span>
+      <h2 class="section-title">Cotizá tu vuelo<br>en minutos</h2>
+      <p class="section-subtitle">Completá el formulario o escribinos directo por WhatsApp. Te respondemos rápido.</p>
+    </div>
+
+    <div class="contact-wrap">
+
+      <div class="contact-left reveal reveal-d1">
+        <h3>También podés escribirnos directo</h3>
+        <p>Si preferís una respuesta más rápida, mandanos un mensaje por WhatsApp y te respondemos a la brevedad, sin vueltas.</p>
+        <div class="contact-methods">
+          <a href="https://wa.me/5491100000000" target="_blank" rel="noopener" class="c-method">
+            <div class="c-icon wp"><i class="fab fa-whatsapp"></i></div>
+            <div class="c-text">
+              <strong>WhatsApp</strong>
+              <span>Respuesta en menos de 1 hora</span>
+            </div>
+          </a>
+          <a href="mailto:info@skycharter.com.ar" class="c-method">
+            <div class="c-icon mail"><i class="fas fa-envelope"></i></div>
+            <div class="c-text">
+              <strong>info@skycharter.com.ar</strong>
+              <span>Respondemos dentro del día</span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="quote-form reveal reveal-d2">
+        <h3>Formulario de cotización</h3>
+        <form id="quoteForm">
+          <div class="f-row">
+            <div class="f-group">
+              <label for="f-origen">Origen</label>
+              <input id="f-origen" type="text" placeholder="Ej: Buenos Aires" required>
+            </div>
+            <div class="f-group">
+              <label for="f-destino">Destino</label>
+              <input id="f-destino" type="text" placeholder="Ej: Mendoza" required>
+            </div>
+          </div>
+          <div class="f-row">
+            <div class="f-group">
+              <label for="f-fecha">Fecha estimada</label>
+              <input id="f-fecha" type="date" required>
+            </div>
+            <div class="f-group">
+              <label for="f-pax">Pasajeros</label>
+              <select id="f-pax" required>
+                <option value="">Seleccioná</option>
+                <option>1</option><option>2</option><option>3</option>
+                <option>4</option><option>5</option><option>6</option>
+              </select>
+            </div>
+          </div>
+          <div class="f-row">
+            <div class="f-group">
+              <label for="f-nombre">Tu nombre</label>
+              <input id="f-nombre" type="text" placeholder="Nombre completo" required>
+            </div>
+            <div class="f-group">
+              <label for="f-tel">Teléfono / WhatsApp</label>
+              <input id="f-tel" type="tel" placeholder="+54 9 11 0000-0000" required>
+            </div>
+          </div>
+          <div class="f-group">
+            <label for="f-notas">Comentarios adicionales</label>
+            <textarea id="f-notas" placeholder="¿Vuelta en el día? ¿Equipaje especial? ¿Algún detalle extra?"></textarea>
+          </div>
+          <button type="submit" class="f-submit" id="formBtn">
+            <i class="fas fa-paper-plane"></i> Enviar cotización
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================
+     FOOTER
+=========================================== -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="logo">
+          <div class="logo-icon"><i class="fas fa-plane"></i></div>
+          <span class="logo-text">Sky<em>Charter</em></span>
+        </a>
+        <p>Vuelos privados para grupos de 4 y 6 personas desde aeropuertos de Argentina. Seriedad operativa y atención directa.</p>
+      </div>
+      <div>
+        <p class="footer-col-title">Navegación</p>
+        <ul class="footer-links">
+          <li><a href="#why">¿Por qué privado?</a></li>
+          <li><a href="#servicios">Servicios</a></li>
+          <li><a href="#flota">Flota</a></li>
+          <li><a href="#destinos">Destinos</a></li>
+          <li><a href="#empresa">La empresa</a></li>
+          <li><a href="#inversores">Inversores</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Contacto</p>
+        <ul class="footer-links">
+          <li><a href="https://wa.me/5491100000000" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><a href="mailto:info@skycharter.com.ar">info@skycharter.com.ar</a></li>
+          <li><a href="#contacto">Cotizar vuelo</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2024 SkyCharter. Todos los derechos reservados.</p>
+      <p>Desarrollado por <strong>INOBARIX</strong></p>
+    </div>
+  </div>
+</footer>
+
+<!-- WhatsApp float -->
+<a href="https://wa.me/5491100000000" target="_blank" rel="noopener"
+   class="wp-float" title="Hablar por WhatsApp" aria-label="WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- ==========================================
+     JAVASCRIPT
+=========================================== -->
+<script>
+'use strict';
+
+/* ---- Navbar scroll ---- */
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
+
+/* ---- Mobile menu ---- */
+const hamburger   = document.getElementById('hamburger');
+const mobileMenu  = document.getElementById('mobileMenu');
+const mobileClose = document.getElementById('mobileClose');
+
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('active');
+  mobileMenu.classList.toggle('open');
+});
+mobileClose.addEventListener('click', closeMenu);
+function closeMenu() {
+  hamburger.classList.remove('active');
+  mobileMenu.classList.remove('open');
+}
+
+/* ---- Smooth scroll helper ---- */
+function scrollTo(id) {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+}
+
+/* ---- Scroll reveal ---- */
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      revealObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+/* ---- 3-D tilt on cards (mouse tracking) ---- */
+document.querySelectorAll('.tilt-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r   = card.getBoundingClientRect();
+    const x   = e.clientX - r.left;
+    const y   = e.clientY - r.top;
+    const rx  = ((y / r.height) - 0.5) * -14;
+    const ry  = ((x / r.width)  - 0.5) *  14;
+    card.style.transition = 'none';
+    card.style.transform  = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-6px) scale(1.015)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transition = 'transform 0.55s cubic-bezier(0.4,0,0.2,1)';
+    card.style.transform  = '';
+  });
+});
+
+/* ---- Hero canvas particles ---- */
+(function initParticles() {
+  const canvas = document.getElementById('heroCanvas');
+  const ctx    = canvas.getContext('2d');
+  let W, H, pts = [];
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize, { passive: true });
+
+  function makeParticle() {
+    return {
+      x:   Math.random() * W,
+      y:   Math.random() * H,
+      r:   Math.random() * 1.8 + 0.4,
+      vx:  (Math.random() - 0.5) * 0.35,
+      vy:  (Math.random() - 0.5) * 0.35,
+      a:   Math.random() * 0.5 + 0.1,
+      ph:  Math.random() * Math.PI * 2,
+    };
+  }
+  for (let i = 0; i < 130; i++) pts.push(makeParticle());
+
+  let mx = W / 2, my = H / 2;
+  window.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; }, { passive: true });
+
+  function loop() {
+    ctx.clearRect(0, 0, W, H);
+
+    // Draw particles & move
+    pts.forEach(p => {
+      p.ph += 0.018;
+      const alpha = p.a * (0.6 + 0.4 * Math.sin(p.ph));
+
+      // subtle attraction toward mouse
+      const dx = mx - p.x, dy = my - p.y;
+      const dm = Math.sqrt(dx * dx + dy * dy);
+      if (dm < 180) {
+        p.vx += (dx / dm) * 0.012;
+        p.vy += (dy / dm) * 0.012;
+      }
+      // drag
+      p.vx *= 0.995;
+      p.vy *= 0.995;
+
+      p.x += p.vx;
+      p.y += p.vy;
+
+      if (p.x < -10) p.x = W + 10;
+      if (p.x > W + 10) p.x = -10;
+      if (p.y < -10) p.y = H + 10;
+      if (p.y > H + 10) p.y = -10;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(31,95,174,${alpha})`;
+      ctx.fill();
+    });
+
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+
+/* ---- Form submit ---- */
+document.getElementById('quoteForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const btn = document.getElementById('formBtn');
+  btn.classList.add('sent');
+  btn.innerHTML = '<i class="fas fa-check"></i> ¡Cotización enviada!';
+  setTimeout(() => {
+    btn.classList.remove('sent');
+    btn.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar cotización';
+    e.target.reset();
+  }, 3500);
+});
+
+/* ---- Why stacking cards: scale-back effect ---- */
+(function initWhyStack() {
+  const cards = Array.from(document.querySelectorAll('.why-card'));
+  if (cards.length < 2) return;
+  const STICKY_TOP = 120;
+
+  function update() {
+    cards.forEach((card, i) => {
+      const next = cards[i + 1];
+      if (!next) return;
+      const h      = card.offsetHeight;
+      const nextT  = next.getBoundingClientRect().top;
+      // progress 0→1 as the next card travels from (h + STICKY_TOP) down to STICKY_TOP
+      const progress = Math.max(0, Math.min(1, (h + STICKY_TOP - nextT) / h));
+      card.style.transform = `scale(${1 - progress * 0.045})`;
+      card.style.filter    = `brightness(${1 - progress * 0.20})`;
+    });
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+})();
+
+/* ---- Counter animation for hero stats ---- */
+function animCount(el, end, suffix) {
+  let start = null;
+  function step(ts) {
+    if (!start) start = ts;
+    const p = Math.min((ts - start) / 1800, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(ease * end) + suffix;
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+/* ---- Hero typewriter cycling effect ---- */
+(function heroTypewriter() {
+  const el    = document.getElementById('hero-word');
+  if (!el) return;
+  const words = ['diferente,', 'con amigos,', 'en pareja,', 'a eventos,', 'al mundial,'];
+  let wi = 0, ci = 0, deleting = false;
+  const PAUSE_AFTER = 1800, TYPE_SPEED = 80, DEL_SPEED = 45;
+
+  function tick() {
+    const word = words[wi];
+    if (!deleting) {
+      ci++;
+      el.textContent = word.slice(0, ci);
+      if (ci === word.length) {
+        deleting = true;
+        setTimeout(tick, PAUSE_AFTER);
+        return;
+      }
+    } else {
+      ci--;
+      el.textContent = word.slice(0, ci);
+      if (ci === 0) {
+        deleting = false;
+        wi = (wi + 1) % words.length;
+        setTimeout(tick, 320);
+        return;
+      }
+    }
+    setTimeout(tick, deleting ? DEL_SPEED : TYPE_SPEED);
+  }
+
+  el.textContent = '';
+  setTimeout(tick, 900);
+})();
+
+const statsObs = new IntersectionObserver(entries => {
+  if (entries[0].isIntersecting) {
+    animCount(document.getElementById('stat2'), 0, '');
+    animCount(document.getElementById('stat3'), 4, '');
+    statsObs.disconnect();
+  }
+}, { threshold: 0.8 });
+const statsEl = document.querySelector('.stats-section');
+if (statsEl) statsObs.observe(statsEl);
+</script>
+
+</body>
+</html>
