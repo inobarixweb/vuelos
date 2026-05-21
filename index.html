@@ -949,21 +949,20 @@
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
-        width: 28px; height: 28px;
-        border-radius: 50%;
-        background: rgba(255,255,255,0.12);
-        border: 1px solid rgba(255,255,255,0.2);
-        color: white;
-        font-size: 14px;
+        background: none;
+        border: none;
+        color: rgba(255,255,255,0.6);
+        font-size: 16px;
         align-items: center;
         justify-content: center;
         cursor: pointer;
         z-index: 3;
-        transition: background 0.2s;
+        transition: color 0.2s;
+        padding: 4px;
       }
       .stat-next { right: -14px; }
       .stat-prev { left: -14px; }
-      .stat-next:hover, .stat-prev:hover { background: rgba(255,255,255,0.22); }
+      .stat-next:hover, .stat-prev:hover { color: white; }
       .stat strong { font-size: 44px; }
       .stat span { font-size: 14px; }
 
