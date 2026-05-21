@@ -363,7 +363,18 @@
     /* =========================================
        WHY FLY PRIVATE — two-col + stacking cards
     ========================================= */
-    #why { background: var(--primary); padding: 0; }
+    #why {
+      background: var(--primary); padding: 0;
+      position: relative;
+    }
+    #why::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 120px;
+      background: linear-gradient(to bottom, transparent, var(--primary));
+      pointer-events: none;
+    }
     #why .section-title    { color: #fff; text-align: left; }
     #why .section-subtitle { color: rgba(255,255,255,0.55); text-align: left; max-width: 100%; }
     #why .section-tag      { color: #7EB8F7; background: rgba(31,95,174,0.15); }
@@ -708,6 +719,76 @@
     .f-submit.sent { background: #10B981; }
 
     /* =========================================
+       CLOUDS SECTION
+    ========================================= */
+    #nubes {
+      height: 160vh;
+      position: relative;
+      z-index: 2;
+    }
+    .clouds-sticky {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: hidden;
+      z-index: 2;
+    }
+    #servicios {
+      position: relative;
+      z-index: 1;
+      margin-top: -70vh;
+    }
+    .clouds-bg {
+      position: absolute;
+      inset: -12%;
+      background: url('image/nubes-transparentes.png') center 60% / cover no-repeat;
+      will-change: transform;
+      transform-origin: center 65%;
+      transition: none;
+    }
+    .cloud-drift {
+      position: absolute;
+      inset: -18%;
+      background: url('image/nubes-transparentes.png') center 60% / cover no-repeat;
+      will-change: transform, opacity;
+      opacity: 0;
+    }
+    .clouds-veil {
+      position: absolute;
+      inset: 0;
+      background: white;
+      opacity: 0;
+      will-change: opacity;
+      pointer-events: none;
+    }
+    .clouds-top-fade {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 60%;
+      background: linear-gradient(to bottom, var(--primary) 0%, rgba(11,32,69,0.5) 50%, transparent 100%);
+      pointer-events: none;
+      z-index: 3;
+    }
+    .clouds-bottom-fade {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 28%;
+      background: linear-gradient(to bottom, transparent, transparent);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    @media (max-width: 768px) {
+      #nubes { height: 150vh; }
+      .clouds-bg { background-position: center 50%; }
+      .cloud-drift { background-position: center 50%; }
+    }
+
+    @media (max-width: 480px) {
+      #nubes { height: 130vh; }
+    }
+
+    /* =========================================
        WHATSAPP FLOAT
     ========================================= */
     .wp-float {
@@ -1018,6 +1099,20 @@
       </div>
     </div>
 
+  </div>
+</section>
+
+<!-- ==========================================
+     CLOUDS
+=========================================== -->
+<section id="nubes">
+  <div class="clouds-sticky">
+    <div class="clouds-bg"></div>
+    <div class="cloud-drift" id="cloudDrift1"></div>
+    <div class="cloud-drift" id="cloudDrift2"></div>
+    <div class="clouds-top-fade"></div>
+    <div class="clouds-veil" id="cloudsVeil"></div>
+    <div class="clouds-bottom-fade"></div>
   </div>
 </section>
 
@@ -1694,6 +1789,51 @@ function animCount(el, end, suffix) {
 
   el.textContent = '';
   setTimeout(tick, 900);
+})();
+
+/* ---- Clouds fly-through effect ---- */
+(function initClouds() {
+  const section = document.getElementById('nubes');
+  if (!section) return;
+  const bg     = section.querySelector('.clouds-bg');
+  const drift1 = document.getElementById('cloudDrift1');
+  const drift2 = document.getElementById('cloudDrift2');
+  const veil   = document.getElementById('cloudsVeil');
+
+  function update() {
+    const rect  = section.getBoundingClientRect();
+    const total = section.offsetHeight - window.innerHeight;
+    const p     = Math.max(0, Math.min(1, -rect.top / total));
+
+    // zoom in — approaching the clouds
+    bg.style.transform = `scale(${1 + p * 0.45}) translateY(${p * -3}%)`;
+
+    // fade out everything near the end so clouds disappear completely
+    const fadeOut = Math.max(0, 1 - Math.max(0, (p - 0.72) / 0.28));
+    section.querySelector('.clouds-sticky').style.opacity = fadeOut;
+
+    const isMobile = window.innerWidth <= 768;
+    const maxOp1 = isMobile ? 0.95 : 0.82;
+    const maxOp2 = isMobile ? 0.85 : 0.72;
+
+    // first drift layer: ramps up fast, holds visible until veil takes over
+    const p1in  = Math.max(0, Math.min(1, (p - 0.05) / 0.20));
+    const p1out = Math.max(0, Math.min(1, (p - 0.55) / 0.20));
+    drift1.style.opacity   = (p1in - p1out) * maxOp1;
+    drift1.style.transform = `scale(${1.08 + p * 0.30}) translateX(${p * -7}%)`;
+
+    // second drift layer: slightly delayed, drifts right
+    const p2in  = Math.max(0, Math.min(1, (p - 0.12) / 0.20));
+    const p2out = Math.max(0, Math.min(1, (p - 0.58) / 0.20));
+    drift2.style.opacity   = (p2in - p2out) * maxOp2;
+    drift2.style.transform = `scale(${1.15 + p * 0.25}) translateX(${p * 6}%)`;
+
+    // white veil — disabled (transparent image handles the reveal)
+    veil.style.opacity = 0;
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  update();
 })();
 
 const statsObs = new IntersectionObserver(entries => {
