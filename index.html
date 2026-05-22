@@ -449,60 +449,81 @@
        SERVICES
     ========================================= */
     #servicios { background: var(--bg); }
-    .services-grid {
+    .services-list { display: flex; flex-direction: column; gap: 28px; }
+    .service-row {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 28px;
-    }
-    .service-card {
+      grid-template-columns: 1fr 1fr;
       background: var(--bg-white);
-      border-radius: var(--radius-lg); overflow: hidden;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.05);
-      transition: transform 0.4s var(--transition), box-shadow 0.4s var(--transition);
-      will-change: transform;
-      transform-style: preserve-3d;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      min-height: 420px;
     }
-    .service-card:hover {
-      box-shadow: 0 28px 64px rgba(31,95,174,0.12);
+    .svc-canvas-wrap {
+      position: relative;
+      background: #060d1a;
+      min-height: 420px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    .svc-header {
-      height: 230px; padding: 0;
-      position: relative; overflow: hidden;
-      display: flex; align-items: flex-end;
+    .svc-plane-img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s var(--transition);
     }
-    .svc-header::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: var(--img, linear-gradient(135deg, var(--primary) 0%, var(--primary-mid) 100%)) center/cover no-repeat;
-      transition: transform 0.65s var(--transition);
+    .svc-canvas-wrap:hover .svc-plane-img { transform: scale(1.05); }
+    .svc-canvas-label {
+      position: absolute; top: 24px; left: 28px; z-index: 2;
+      color: #fff; font-size: 26px; font-weight: 900;
+      letter-spacing: -0.5px; line-height: 1; pointer-events: none;
+      text-shadow: 0 2px 16px rgba(0,0,0,0.7);
     }
-    .svc-header::after {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(180deg, rgba(11,32,69,0.15) 0%, rgba(11,32,69,0.90) 100%);
+    .svc-canvas-label span {
+      display: block; font-size: 11px; font-weight: 600;
+      color: #7EB8F7; letter-spacing: 2.5px;
+      text-transform: uppercase; margin-top: 6px;
     }
-    .service-card:hover .svc-header::before { transform: scale(1.06); }
-    .svc-pax {
-      padding: 20px 28px;
-      font-size: 30px; font-weight: 900; color: white;
-      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 1.1;
-      letter-spacing: -0.5px; position: relative; z-index: 1;
+    .svc-canvas-hint {
+      position: absolute; bottom: 18px; left: 50%;
+      transform: translateX(-50%); z-index: 2;
+      color: rgba(255,255,255,0.35); font-size: 10px;
+      letter-spacing: 2px; text-transform: uppercase;
+      pointer-events: none; white-space: nowrap;
+      display: flex; align-items: center; gap: 6px;
+      transition: opacity 0.4s;
     }
-    .svc-pax em { font-style: normal; font-size: 13px; color: var(--accent-light); display: block; margin-top: 5px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; opacity: 0.85; }
-    .svc-body { padding: 36px; }
-    .svc-body h3 { font-size: 22px; font-weight: 700; margin-bottom: 10px; }
-    .svc-body > p { color: var(--text-muted); line-height: 1.65; margin-bottom: 24px; font-size: 15px; }
-    .svc-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-    .svc-list li { display: flex; align-items: center; gap: 11px; font-size: 15px; }
-    .svc-list li i { color: var(--accent); font-size: 13px; flex-shrink: 0; }
+    .svc-canvas-wrap:hover .svc-canvas-hint { opacity: 0; }
+    .svc-info { display: flex; align-items: center; }
+    .svc-info-inner { padding: 44px 52px; width: 100%; }
+    .svc-badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(31,95,174,0.08); color: var(--accent);
+      padding: 5px 14px; border-radius: 100px;
+      font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; margin-bottom: 20px;
+    }
+    .svc-info-inner h3 {
+      font-size: 26px; font-weight: 800;
+      line-height: 1.2; margin-bottom: 12px;
+    }
+    .svc-info-inner > p {
+      color: var(--text-muted); font-size: 15px;
+      line-height: 1.7; margin-bottom: 26px;
+    }
+    .svc-list { list-style: none; display: flex; flex-direction: column; gap: 11px; margin-bottom: 32px; }
+    .svc-list li { display: flex; align-items: center; gap: 11px; font-size: 14px; }
+    .svc-list li i { color: var(--accent); font-size: 12px; flex-shrink: 0; }
     .svc-cta {
       display: inline-flex; align-items: center; gap: 8px;
-      margin-top: 28px; background: none; border: 1.5px solid var(--accent);
-      color: var(--accent); padding: 11px 22px; border-radius: 9px;
-      font-weight: 600; font-size: 15px; cursor: pointer;
+      background: none; border: 1.5px solid var(--accent);
+      color: var(--accent); padding: 11px 24px; border-radius: 10px;
+      font-weight: 600; font-size: 14px; cursor: pointer;
       font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       transition: background 0.3s, color 0.3s, transform 0.25s;
     }
-    .svc-cta:hover { background: var(--accent); color: white; transform: translateY(-3px); }
+    .svc-cta:hover { background: var(--accent); color: #fff; transform: translateY(-2px); }
 
     /* =========================================
        FLEET  (3-D flip cards)
@@ -999,7 +1020,9 @@
         grid-template-rows: repeat(5, 220px);
       }
       .dest-card:nth-child(1) { grid-column: 1; }
-      .services-grid { grid-template-columns: 1fr; }
+      .service-row { grid-template-columns: 1fr; }
+      .svc-canvas-wrap { min-height: 300px; }
+      .svc-info-inner { padding: 32px 28px; }
       .stats-inner { gap: 24px; }
     }
   </style>
@@ -1201,66 +1224,80 @@
       <h2 class="section-title">Tres aeronaves,<br>tres experiencias</h2>
       <p class="section-subtitle">De vuelos bautismo a destinos intercontinentales. Sin filas, sin check-in, sin esperas. Tu horario, tu destino.</p>
     </div>
-    <div class="services-grid">
-      <div class="service-card reveal reveal-d1 tilt-card">
-        <div class="svc-header" style="--img: url('image/piper archer/FP_Piper-Archer-II-Article-10.jpg')">
-          <div class="svc-pax">Piper<em>Archer</em></div>
+    <div class="services-list">
+
+      <div class="service-row reveal reveal-d1">
+        <div class="svc-canvas-wrap">
+          <img class="svc-plane-img" src="image/piper archer/FP_Piper-Archer-II-Article-10.jpg" alt="Piper Archer III">
+          <div class="svc-canvas-label">Piper<span>Archer III</span></div>
         </div>
-        <div class="svc-body">
-          <h3>Bautismo & Turismo</h3>
-          <p>Tu primer vuelo o una escapada corta a bordo. La forma más accesible de volar privado y vivir la experiencia desde adentro.</p>
-          <ul class="svc-list">
-            <li><i class="fas fa-check-circle"></i> Vuelos bautismo — primera experiencia aérea</li>
-            <li><i class="fas fa-check-circle"></i> Isla Martín García · Colonia · Montevideo</li>
-            <li><i class="fas fa-check-circle"></i> Hasta 3 pasajeros</li>
-            <li><i class="fas fa-check-circle"></i> Opción más económica de la flota</li>
-            <li><i class="fas fa-check-circle"></i> Ideal para regalos y experiencias únicas</li>
-          </ul>
-          <button class="svc-cta" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">
-            <i class="fas fa-paper-plane"></i> Consultar precio
-          </button>
+        <div class="svc-info">
+          <div class="svc-info-inner">
+            <div class="svc-badge"><i class="fas fa-user-friends"></i> Hasta 3 pasajeros</div>
+            <h3>Bautismo & Turismo</h3>
+            <p>Tu primer vuelo o una escapada corta a bordo. La forma más accesible de volar privado y vivir la experiencia desde adentro.</p>
+            <ul class="svc-list">
+              <li><i class="fas fa-check-circle"></i> Vuelos bautismo — primera experiencia aérea</li>
+              <li><i class="fas fa-check-circle"></i> Isla Martín García · Colonia · Montevideo</li>
+              <li><i class="fas fa-check-circle"></i> Hasta 3 pasajeros</li>
+              <li><i class="fas fa-check-circle"></i> Opción más económica de la flota</li>
+              <li><i class="fas fa-check-circle"></i> Ideal para regalos y experiencias únicas</li>
+            </ul>
+            <button class="svc-cta" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">
+              <i class="fas fa-paper-plane"></i> Consultar precio
+            </button>
+          </div>
         </div>
       </div>
 
-      <div class="service-card reveal reveal-d2 tilt-card">
-        <div class="svc-header" style="--img: url('image/learjet 60/learget 60.jpg')">
-          <div class="svc-pax">Learjet<em>60</em></div>
+      <div class="service-row reveal reveal-d2">
+        <div class="svc-canvas-wrap">
+          <img class="svc-plane-img" src="image/learjet 60/learget 60.jpg" alt="Learjet 60">
+          <div class="svc-canvas-label">Learjet<span>60</span></div>
         </div>
-        <div class="svc-body">
-          <h3>Charter Regional</h3>
-          <p>Jet ejecutivo para rutas dentro de Argentina y países limítrofes. Velocidad real, cabina privada, sin escalas.</p>
-          <ul class="svc-list">
-            <li><i class="fas fa-check-circle"></i> Hasta 8 pasajeros</li>
-            <li><i class="fas fa-check-circle"></i> Argentina · Uruguay · Chile · Paraguay · Bolivia</li>
-            <li><i class="fas fa-check-circle"></i> 870 km/h de velocidad crucero</li>
-            <li><i class="fas fa-check-circle"></i> Cabina ejecutiva con total privacidad</li>
-            <li><i class="fas fa-check-circle"></i> Ida y vuelta en el día</li>
-          </ul>
-          <button class="svc-cta" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">
-            <i class="fas fa-paper-plane"></i> Consultar disponibilidad
-          </button>
+        <div class="svc-info">
+          <div class="svc-info-inner">
+            <div class="svc-badge"><i class="fas fa-user-friends"></i> Hasta 8 pasajeros</div>
+            <h3>Charter Regional</h3>
+            <p>Jet ejecutivo para rutas dentro de Argentina y países limítrofes. Velocidad real, cabina privada, sin escalas.</p>
+            <ul class="svc-list">
+              <li><i class="fas fa-check-circle"></i> Hasta 8 pasajeros</li>
+              <li><i class="fas fa-check-circle"></i> Argentina · Uruguay · Chile · Paraguay · Bolivia</li>
+              <li><i class="fas fa-check-circle"></i> 870 km/h de velocidad crucero</li>
+              <li><i class="fas fa-check-circle"></i> Cabina ejecutiva con total privacidad</li>
+              <li><i class="fas fa-check-circle"></i> Ida y vuelta en el día</li>
+            </ul>
+            <button class="svc-cta" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">
+              <i class="fas fa-paper-plane"></i> Consultar disponibilidad
+            </button>
+          </div>
         </div>
       </div>
 
-      <div class="service-card reveal reveal-d3 tilt-card">
-        <div class="svc-header" style="--img: url('image/Gulfstream GV/GV-Exterior-JS.jpg')">
-          <div class="svc-pax">Gulfstream<em>GV</em></div>
+      <div class="service-row reveal reveal-d3">
+        <div class="svc-canvas-wrap">
+          <img class="svc-plane-img" src="image/Gulfstream GV/GV-Exterior-JS.jpg" alt="Gulfstream GV">
+          <div class="svc-canvas-label">Gulfstream<span>GV</span></div>
         </div>
-        <div class="svc-body">
-          <h3>Charter Internacional</h3>
-          <p>El avión de largo alcance de la flota. Brasil, Estados Unidos, Europa y África sin escalas desde Argentina.</p>
-          <ul class="svc-list">
-            <li><i class="fas fa-check-circle"></i> Hasta 14 pasajeros</li>
-            <li><i class="fas fa-check-circle"></i> 11.000 km de autonomía</li>
-            <li><i class="fas fa-check-circle"></i> Brasil norte · EEUU · Europa · África</li>
-            <li><i class="fas fa-check-circle"></i> Cabina de largo radio totalmente equipada</li>
-            <li><i class="fas fa-check-circle"></i> Vuelos intercontinentales sin escalas</li>
-          </ul>
-          <button class="svc-cta" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">
-            <i class="fas fa-paper-plane"></i> Consultar disponibilidad
-          </button>
+        <div class="svc-info">
+          <div class="svc-info-inner">
+            <div class="svc-badge"><i class="fas fa-user-friends"></i> Hasta 14 pasajeros</div>
+            <h3>Charter Internacional</h3>
+            <p>El avión de largo alcance de la flota. Brasil, Estados Unidos, Europa y África sin escalas desde Argentina.</p>
+            <ul class="svc-list">
+              <li><i class="fas fa-check-circle"></i> Hasta 14 pasajeros</li>
+              <li><i class="fas fa-check-circle"></i> 11.000 km de autonomía</li>
+              <li><i class="fas fa-check-circle"></i> Brasil norte · EEUU · Europa · África</li>
+              <li><i class="fas fa-check-circle"></i> Cabina de largo radio totalmente equipada</li>
+              <li><i class="fas fa-check-circle"></i> Vuelos intercontinentales sin escalas</li>
+            </ul>
+            <button class="svc-cta" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">
+              <i class="fas fa-paper-plane"></i> Consultar disponibilidad
+            </button>
+          </div>
         </div>
       </div>
+
     </div>
   </div>
 </section>
@@ -1366,11 +1403,11 @@
     <div class="dest-mosaic">
 
       <div class="dest-card reveal reveal-d1" onclick="scrollTo('contacto')">
-        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=900&q=80" alt="Martín García · Colonia · Montevideo">
+        <img src="https://images.unsplash.com/photo-1690667606448-5357ea92f42e?w=900&q=80" alt="Punta del Este">
         <div class="dest-overlay"></div>
         <div class="dest-info">
           <span class="dest-badge">Piper Archer · ~1 hora</span>
-          <h3>Martín García · Colonia · Montevideo</h3>
+          <h3>Punta del Este</h3>
           <p>Escapadas cortas y vuelos bautismo. El destino perfecto para tu primera vez en privado o una tarde diferente.</p>
           <div class="dest-link">Consultar disponibilidad <i class="fas fa-arrow-right"></i></div>
         </div>
@@ -1388,7 +1425,7 @@
       </div>
 
       <div class="dest-card reveal reveal-d3" onclick="scrollTo('contacto')">
-        <img src="https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=600&q=80" alt="Miami · EEUU">
+        <img src="https://images.unsplash.com/photo-1764782979306-1e489462d895?w=600&q=80" alt="Miami · Nueva York">
         <div class="dest-overlay"></div>
         <div class="dest-info">
           <span class="dest-badge">Gulfstream GV · ~10 horas</span>
@@ -1399,7 +1436,7 @@
       </div>
 
       <div class="dest-card reveal reveal-d4" onclick="scrollTo('contacto')">
-        <img src="https://images.unsplash.com/photo-1501854140801-50d01698950b?w=600&q=80" alt="Patagonia">
+        <img src="https://images.unsplash.com/photo-1552751753-0fc84ae5b6c8?w=600&q=80" alt="Patagonia">
         <div class="dest-overlay"></div>
         <div class="dest-info">
           <span class="dest-badge">Learjet 60 · ~3 horas</span>
@@ -1410,7 +1447,7 @@
       </div>
 
       <div class="dest-card reveal reveal-d1" onclick="scrollTo('contacto')">
-        <img src="https://images.unsplash.com/photo-1534008897995-27a23e859048?w=600&q=80" alt="Santiago de Chile">
+        <img src="https://images.unsplash.com/photo-1593985437133-03d5e1435c03?w=600&q=80" alt="Santiago de Chile">
         <div class="dest-overlay"></div>
         <div class="dest-info">
           <span class="dest-badge">Learjet 60 · ~2 horas</span>
@@ -1943,6 +1980,7 @@ const statsObs = new IntersectionObserver(entries => {
 }, { threshold: 0.8 });
 const statsEl = document.querySelector('.stats-section');
 if (statsEl) statsObs.observe(statsEl);
+
 </script>
 
 </body>
