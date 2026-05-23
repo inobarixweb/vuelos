@@ -1023,8 +1023,8 @@
       .fleet-card { height: 340px; }
       .why-layout { grid-template-columns: 1fr; gap: 0; }
       .why-left   { position: static; top: auto; padding: 72px 0 36px; }
-      .why-right  { padding: 0 0 72px; gap: 24px; }
-      .why-card   { position: static; top: auto; }
+      .why-right  { padding: 0 0 72px; gap: 80px; }
+      .why-card   { top: 80px; }
       .footer-grid { grid-template-columns: 1fr; gap: 28px; }
       .f-row { grid-template-columns: 1fr; }
       .quote-form { padding: 28px; }
@@ -1941,29 +1941,24 @@ document.getElementById('quoteForm').addEventListener('submit', e => {
 (function initWhyStack() {
   const cards = Array.from(document.querySelectorAll('.why-card'));
   if (cards.length < 2) return;
-  const STICKY_TOP = 120;
 
-  function isMobile() { return window.innerWidth <= 768; }
-
-  function resetCards() {
-    cards.forEach(c => { c.style.transform = ''; c.style.filter = ''; c.style.opacity = ''; });
-  }
+  function stickyTop() { return window.innerWidth <= 768 ? 80 : 120; }
 
   function update() {
-    if (isMobile()) return;
+    const top = stickyTop();
     cards.forEach((card, i) => {
       const next = cards[i + 1];
       if (!next) return;
       const h        = card.offsetHeight;
       const nextT    = next.getBoundingClientRect().top;
-      const progress = Math.max(0, Math.min(1, (h + STICKY_TOP - nextT) / h));
+      const progress = Math.max(0, Math.min(1, (h + top - nextT) / h));
       card.style.transform = `scale(${1 - progress * 0.045})`;
       card.style.opacity   = `${1 - progress * 0.25}`;
     });
   }
 
   window.addEventListener('scroll', update, { passive: true });
-  window.addEventListener('resize', () => { isMobile() ? resetCards() : update(); }, { passive: true });
+  window.addEventListener('resize', update, { passive: true });
   update();
 })();
 
