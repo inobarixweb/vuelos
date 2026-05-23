@@ -136,18 +136,18 @@
     .nav-links a:hover::after { transform: scaleX(1); }
 
     .nav-cta {
-      background: var(--accent) !important;
+      background: var(--orange) !important;
       color: #fff !important;
-      padding: 10px 22px !important; border-radius: 8px;
+      padding: 10px 22px !important; border-radius: 24px;
       font-weight: 700 !important;
-      box-shadow: 0 4px 20px var(--accent-glow);
+      box-shadow: 0 4px 20px var(--orange-glow);
       transition: background 0.3s, transform 0.2s, box-shadow 0.3s !important;
     }
     .nav-cta::after { display: none !important; }
     .nav-cta:hover {
-      background: var(--accent-light) !important;
+      background: #e87a3a !important;
       transform: translateY(-2px) !important;
-      box-shadow: 0 8px 28px var(--accent-glow) !important;
+      box-shadow: 0 8px 28px var(--orange-glow) !important;
     }
 
     .hamburger {
@@ -296,7 +296,7 @@
     .btn-primary {
       display: inline-flex; align-items: center; gap: 9px;
       background: var(--accent); color: white;
-      padding: 16px 32px; border-radius: 12px;
+      padding: 16px 32px; border-radius: 24px;
       font-weight: 700; font-size: 16px;
       border: none; cursor: pointer; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       box-shadow: 0 8px 30px var(--accent-glow);
@@ -307,16 +307,19 @@
       transform: translateY(-4px);
       box-shadow: 0 14px 40px rgba(31,95,174,0.5);
     }
+    .hero-ctas .btn-primary:hover {
+      transform: translateY(-2px);
+    }
     .btn-ghost {
       display: inline-flex; align-items: center; gap: 9px;
       background: rgba(255,255,255,0.08);
       backdrop-filter: blur(12px);
       border: 1px solid rgba(255,255,255,0.18);
-      color: white; padding: 16px 32px; border-radius: 12px;
+      color: white; padding: 16px 32px; border-radius: 24px;
       font-weight: 600; font-size: 16px;
       transition: background 0.3s, transform 0.25s;
     }
-    .btn-ghost:hover { background: rgba(255,255,255,0.16); transform: translateY(-4px); }
+    .btn-ghost:hover { background: rgba(255,255,255,0.16); }
     .btn-orange-full {
       background: var(--orange) !important;
       box-shadow: 0 8px 30px var(--orange-glow) !important;
@@ -325,23 +328,37 @@
       background: #e87a3a !important;
       box-shadow: 0 14px 40px rgba(255,107,43,0.5) !important;
     }
+    .btn-wp-full {
+      background: var(--wp-green) !important;
+      box-shadow: 0 8px 30px rgba(37,211,102,0.35) !important;
+    }
+    .btn-wp-full:hover {
+      background: #1ebe5d !important;
+      box-shadow: 0 14px 40px rgba(37,211,102,0.5) !important;
+    }
 
     /* Stats section */
     .stats-section {
-      background: var(--primary);
+      background: var(--bg);
       padding: 48px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid var(--border);
     }
     .stats-inner {
       display: flex; justify-content: center;
-      gap: 80px; flex-wrap: wrap;
+      flex-wrap: wrap;
     }
-    .stat { text-align: center; }
+    .stat {
+      text-align: center;
+      padding: 0 56px;
+    }
+    .stat:not(:last-child) {
+      border-right: 1px solid var(--border);
+    }
     .stat strong {
       display: block; font-size: 40px; font-weight: 800;
-      color: #ffffff; line-height: 1;
+      color: #0E1114; line-height: 1;
     }
-    .stat span { font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 6px; display: block; }
+    .stat span { font-size: 13px; color: var(--text-muted); margin-top: 6px; display: block; }
     .stat-next, .stat-prev { display: none; }
 
     .scroll-hint {
@@ -365,7 +382,7 @@
        WHY FLY PRIVATE — two-col + stacking cards
     ========================================= */
     #why {
-      background: var(--primary); padding: 0;
+      background: var(--bg); padding: 0;
       position: relative;
     }
     #why::after {
@@ -373,12 +390,12 @@
       position: absolute;
       bottom: 0; left: 0; right: 0;
       height: 120px;
-      background: linear-gradient(to bottom, transparent, var(--primary));
+      background: linear-gradient(to bottom, transparent, var(--bg));
       pointer-events: none;
     }
-    #why .section-title    { color: #fff; text-align: left; }
-    #why .section-subtitle { color: rgba(255,255,255,0.55); text-align: left; max-width: 100%; }
-    #why .section-tag      { color: #7EB8F7; background: rgba(31,95,174,0.15); }
+    #why .section-title    { color: var(--text); text-align: left; }
+    #why .section-subtitle { color: var(--text-muted); text-align: left; max-width: 100%; }
+    #why .section-tag      { color: var(--accent); background: rgba(31,95,174,0.10); }
 
     .why-layout {
       max-width: 1200px; margin: 0 auto; padding: 0 28px;
@@ -396,23 +413,23 @@
     }
     .why-card {
       position: sticky; top: 120px;
-      background: rgba(255,255,255,0.06);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border: 1px solid rgba(255,255,255,0.11);
+      background: var(--bg-white);
+      border: 1px solid var(--border);
       border-radius: var(--radius-lg); padding: 36px 32px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
       transform-origin: top center;
       will-change: transform, filter;
-      transition: background 0.3s, border-color 0.3s;
+      transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
     }
     .why-card::before {
       content: '';
       position: absolute; top: 0; left: 32px; right: 32px; height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
     }
     .why-card:hover {
-      background: rgba(255,255,255,0.09);
-      border-color: rgba(255,255,255,0.18);
+      background: var(--bg);
+      border-color: rgba(31,95,174,0.25);
+      box-shadow: 0 8px 40px rgba(31,95,174,0.10);
     }
     .why-card:nth-child(1) { z-index: 1; }
     .why-card:nth-child(2) { z-index: 2; }
@@ -438,12 +455,12 @@
 
     .why-icon {
       width: 54px; height: 54px; border-radius: 14px;
-      background: rgba(31,95,174,0.30);
+      background: rgba(31,95,174,0.10);
       display: flex; align-items: center; justify-content: center;
-      color: #7EB8F7; font-size: 22px; margin-bottom: 20px;
+      color: var(--accent); font-size: 22px; margin-bottom: 20px;
     }
-    .why-card h3 { color: #fff; font-size: 19px; font-weight: 700; margin-bottom: 10px; }
-    .why-card p  { color: rgba(255,255,255,0.65); font-size: 15px; line-height: 1.65; }
+    .why-card h3 { color: var(--text); font-size: 19px; font-weight: 700; margin-bottom: 10px; }
+    .why-card p  { color: var(--text-muted); font-size: 15px; line-height: 1.65; }
 
     /* =========================================
        SERVICES
@@ -518,7 +535,7 @@
     .svc-cta {
       display: inline-flex; align-items: center; gap: 8px;
       background: none; border: 1.5px solid var(--accent);
-      color: var(--accent); padding: 11px 24px; border-radius: 10px;
+      color: var(--accent); padding: 11px 24px; border-radius: 24px;
       font-weight: 600; font-size: 14px; cursor: pointer;
       font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       transition: background 0.3s, color 0.3s, transform 0.25s;
@@ -589,7 +606,7 @@
     .fleet-btn {
       margin-top: 26px; width: 100%; padding: 13px;
       background: var(--accent); color: white; border: none;
-      border-radius: var(--radius-sm); font-size: 15px; font-weight: 700;
+      border-radius: 24px; font-size: 15px; font-weight: 700;
       cursor: pointer; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       transition: background 0.3s, transform 0.2s;
     }
@@ -712,7 +729,7 @@
       flex-shrink: 0;
     }
     .c-icon.wp    { background: var(--wp-green); color: white; }
-    .c-icon.mail  { background: var(--accent);   color: white; }
+    .c-icon.mail  { background: #0E1114;          color: white; }
     .c-text strong { display: block; font-size: 15px; font-weight: 700; }
     .c-text span   { font-size: 13px; color: var(--text-muted); }
 
@@ -743,18 +760,18 @@
     }
     .f-group textarea { resize: vertical; min-height: 90px; }
     .f-submit {
-      width: 100%; padding: 16px; border: none; border-radius: 12px;
-      background: var(--accent); color: white;
+      width: 100%; padding: 16px; border: none; border-radius: 24px; margin-top: 28px;
+      background: var(--orange); color: white;
       font-size: 16px; font-weight: 700; cursor: pointer;
       font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       display: flex; align-items: center; justify-content: center; gap: 9px;
-      box-shadow: 0 6px 24px var(--accent-glow);
+      box-shadow: 0 6px 24px var(--orange-glow);
       transition: background 0.3s, transform 0.25s, box-shadow 0.3s;
     }
     .f-submit:hover {
-      background: var(--accent-light);
+      background: #e87a3a;
       transform: translateY(-3px);
-      box-shadow: 0 10px 32px rgba(31,95,174,0.4);
+      box-shadow: 0 10px 32px rgba(223,98,26,0.4);
     }
     .f-submit.sent { background: #10B981; }
 
@@ -805,7 +822,7 @@
       position: absolute;
       top: 0; left: 0; right: 0;
       height: 60%;
-      background: linear-gradient(to bottom, var(--primary) 0%, rgba(11,32,69,0.5) 50%, transparent 100%);
+      background: linear-gradient(to bottom, var(--bg) 0%, rgba(247,248,249,0.5) 50%, transparent 100%);
       pointer-events: none;
       z-index: 3;
     }
@@ -889,7 +906,7 @@
     /* =========================================
        INVESTORS
     ========================================= */
-    #inversores { background: var(--primary); }
+    #inversores { background: linear-gradient(180deg, #0B2045 0%, #081A33 100%); }
     #inversores .section-title { color: #fff; }
     #inversores .section-subtitle { color: rgba(255,255,255,0.55); }
     .inv-tag { color: var(--accent) !important; background: rgba(31,95,174,0.15) !important; }
@@ -930,10 +947,10 @@
       text-align: center;
     }
     .inv-highlight {
-      display: flex; align-items: center; gap: 20px; color: white;
+      display: flex; flex-direction: column; align-items: center; gap: 12px; color: white; text-align: center;
     }
-    .inv-highlight > i { font-size: 36px; color: var(--accent); flex-shrink: 0; }
-    .inv-highlight div { text-align: left; }
+    .inv-highlight > i { font-size: 36px; color: var(--accent); }
+    .inv-highlight div { text-align: center; }
     .inv-highlight strong { display: block; font-size: 18px; font-weight: 700; margin-bottom: 4px; }
     .inv-highlight span   { font-size: 14px; color: rgba(255,255,255,0.5); }
 
@@ -964,6 +981,7 @@
         scroll-snap-align: center;
         padding: 20px 20px;
         position: relative;
+        border-right: none;
       }
       .stat-next, .stat-prev {
         display: flex;
@@ -972,7 +990,7 @@
         transform: translateY(-50%);
         background: none;
         border: none;
-        color: rgba(255,255,255,0.6);
+        color: rgba(11,32,69,0.35);
         font-size: 16px;
         align-items: center;
         justify-content: center;
@@ -983,7 +1001,7 @@
       }
       .stat-next { right: -14px; }
       .stat-prev { left: -14px; }
-      .stat-next:hover, .stat-prev:hover { color: white; }
+      .stat-next:hover, .stat-prev:hover { color: var(--primary); }
       .stat strong { font-size: 44px; }
       .stat span { font-size: 14px; }
 
@@ -1025,6 +1043,85 @@
       .svc-info-inner { padding: 32px 28px; }
       .stats-inner { gap: 24px; }
     }
+
+    /* =========================================
+       SCROLL PROGRESS BAR
+    ========================================= */
+    #scrollProgress {
+      position: fixed; top: 0; left: 0; z-index: 9999;
+      width: 100%; height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-light), #7EB8F7);
+      transform-origin: left center;
+      transform: scaleX(0);
+      will-change: transform;
+      pointer-events: none;
+      box-shadow: 0 0 10px rgba(31,95,174,0.5);
+    }
+
+    /* =========================================
+       DIRECTIONAL REVEALS
+    ========================================= */
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-54px);
+      transition: opacity 0.85s var(--transition), transform 0.85s var(--transition);
+    }
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(54px);
+      transition: opacity 0.85s var(--transition), transform 0.85s var(--transition);
+    }
+    .reveal-left.visible,
+    .reveal-right.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .reveal-left.reveal-d1, .reveal-right.reveal-d1 { transition-delay: 0.10s; }
+    .reveal-left.reveal-d2, .reveal-right.reveal-d2 { transition-delay: 0.20s; }
+    .reveal-left.reveal-d3, .reveal-right.reveal-d3 { transition-delay: 0.30s; }
+
+    /* =========================================
+       ACTIVE NAV LINK
+    ========================================= */
+    .nav-links a.active { color: #fff; }
+    .nav-links a.active::after { transform: scaleX(1); }
+
+    /* =========================================
+       MOBILE MENU — link stagger
+    ========================================= */
+    .mobile-menu a {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.42s var(--transition), transform 0.42s var(--transition),
+                  color 0.3s;
+    }
+    .mobile-menu.open a { opacity: 1; transform: translateY(0); }
+    .mobile-menu.open a:nth-of-type(1) { transition-delay: 0.06s; }
+    .mobile-menu.open a:nth-of-type(2) { transition-delay: 0.12s; }
+    .mobile-menu.open a:nth-of-type(3) { transition-delay: 0.18s; }
+    .mobile-menu.open a:nth-of-type(4) { transition-delay: 0.24s; }
+    .mobile-menu.open a:nth-of-type(5) { transition-delay: 0.30s; }
+    .mobile-menu.open a:nth-of-type(6) { transition-delay: 0.36s; }
+    .mobile-menu.open a:nth-of-type(7) { transition-delay: 0.42s; }
+
+    /* =========================================
+       PREFERS REDUCED MOTION
+    ========================================= */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        transition-delay: 0ms !important;
+      }
+      .reveal, .reveal-left, .reveal-right {
+        opacity: 1; transform: none;
+      }
+      .hero-badge, .hero-title, .hero-sub, .hero-ctas {
+        opacity: 1; transform: none; animation: none;
+      }
+      #scrollProgress { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -1032,6 +1129,8 @@
 <!-- ==========================================
      NAVBAR
 =========================================== -->
+<div id="scrollProgress"></div>
+
 <nav class="navbar" id="navbar">
   <div class="container">
     <a href="#" class="logo" aria-label="SkyCharter inicio">
@@ -1103,7 +1202,7 @@
       </p>
 
       <div class="hero-ctas">
-        <a href="https://wa.me/5491100000000" target="_blank" rel="noopener" class="btn-primary btn-orange-full">
+        <a href="https://wa.me/5491100000000" target="_blank" rel="noopener" class="btn-primary btn-wp-full">
           <i class="fab fa-whatsapp"></i> Escribinos por WhatsApp
         </a>
         <a href="#servicios" class="btn-ghost">
@@ -1124,7 +1223,7 @@
   <div class="container">
     <div class="stats-inner">
       <div class="stat">
-        <strong id="stat1">3</strong>
+        <strong id="stat1">0</strong>
         <span>Aeronaves disponibles</span>
         <button class="stat-next" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
       </div>
@@ -1134,13 +1233,13 @@
         <button class="stat-next" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
       </div>
       <div class="stat">
-        <strong id="stat3">4</strong>
+        <strong id="stat3">0</strong>
         <span>Continentes alcanzados</span>
         <button class="stat-next" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
       </div>
       <div class="stat">
         <button class="stat-prev" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
-        <strong id="stat4">24hs</strong>
+        <strong id="stat4">0hs</strong>
         <span>Disponibilidad</span>
       </div>
     </div>
@@ -1154,7 +1253,7 @@
   <div class="why-layout">
 
     <!-- LEFT: sticky text -->
-    <div class="why-left reveal">
+    <div class="why-left reveal-left">
       <span class="section-tag">¿Por qué vuelo privado?</span>
       <h2 class="section-title" style="margin-top:14px">Hay momentos que merecen otro nivel de comodidad</h2>
       <p class="section-subtitle" style="margin-top:14px">Un vuelo privado no es solo lujo. Es eficiencia, privacidad y llegar exactamente cuando necesitás.</p>
@@ -1468,7 +1567,7 @@
   <div class="container">
     <div class="about-wrap">
 
-      <div class="about-visual reveal">
+      <div class="about-visual reveal-left">
         <div class="about-photo">
           <img src="https://images.unsplash.com/photo-1614494151557-b3c4d7e0c98c?w=800&q=80" alt="Nuestra operación">
         </div>
@@ -1478,7 +1577,7 @@
         </div>
       </div>
 
-      <div class="about-content reveal reveal-d2">
+      <div class="about-content reveal-right reveal-d2">
         <span class="section-tag" style="display:inline-block; text-align:left;">Sobre SkyCharter</span>
         <h2 class="section-title" style="text-align:left;">Vuelos privados<br>con seriedad operativa</h2>
         <p>Somos una empresa argentina especializada en el alquiler de aeronaves para vuelos privados. Trabajamos con pilotos certificados, flota en regla y un compromiso real con la seguridad y la puntualidad.</p>
@@ -1553,7 +1652,7 @@
         </div>
       </div>
       <a href="https://wa.me/5491100000000" target="_blank" rel="noopener" class="btn-primary btn-orange-full">
-        <i class="fab fa-whatsapp"></i> Quiero invertir — consultame por WhatsApp
+        <i class="fab fa-whatsapp"></i> Quiero invertir
       </a>
     </div>
   </div>
@@ -1572,7 +1671,7 @@
 
     <div class="contact-wrap">
 
-      <div class="contact-left reveal reveal-d1">
+      <div class="contact-left reveal-left reveal-d1">
         <h3>También podés escribirnos directo</h3>
         <p>Si preferís una respuesta más rápida, mandanos un mensaje por WhatsApp y te respondemos a la brevedad, sin vueltas.</p>
         <div class="contact-methods">
@@ -1593,7 +1692,7 @@
         </div>
       </div>
 
-      <div class="quote-form reveal reveal-d2">
+      <div class="quote-form reveal-right reveal-d2">
         <h3>Formulario de cotización</h3>
         <form id="quoteForm">
           <div class="f-row">
@@ -1629,10 +1728,6 @@
               <label for="f-tel">Teléfono / WhatsApp</label>
               <input id="f-tel" type="tel" placeholder="+54 9 11 0000-0000" required>
             </div>
-          </div>
-          <div class="f-group">
-            <label for="f-notas">Comentarios adicionales</label>
-            <textarea id="f-notas" placeholder="¿Vuelta en el día? ¿Equipaje especial? ¿Algún detalle extra?"></textarea>
           </div>
           <button type="submit" class="f-submit" id="formBtn">
             <i class="fas fa-paper-plane"></i> Enviar cotización
@@ -1732,7 +1827,7 @@ const revealObs = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
-document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => revealObs.observe(el));
 
 /* ---- 3-D tilt on cards (mouse tracking) ---- */
 document.querySelectorAll('.tilt-card').forEach(card => {
@@ -1856,11 +1951,12 @@ document.getElementById('quoteForm').addEventListener('submit', e => {
 })();
 
 /* ---- Counter animation for hero stats ---- */
-function animCount(el, end, suffix) {
+function animCount(el, end, suffix, duration) {
+  duration = duration || 1800;
   let start = null;
   function step(ts) {
     if (!start) start = ts;
-    const p = Math.min((ts - start) / 1800, 1);
+    const p = Math.min((ts - start) / duration, 1);
     const ease = 1 - Math.pow(1 - p, 3);
     el.textContent = Math.round(ease * end) + suffix;
     if (p < 1) requestAnimationFrame(step);
@@ -1971,10 +2067,42 @@ function animCount(el, end, suffix) {
   });
 })();
 
+/* ---- Scroll progress bar ---- */
+(function() {
+  const bar = document.getElementById('scrollProgress');
+  if (!bar) return;
+  function update() {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    if (max <= 0) return;
+    bar.style.transform = `scaleX(${window.scrollY / max})`;
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+})();
+
+
+/* ---- Active nav link on scroll ---- */
+(function initActiveNav() {
+  const sections = document.querySelectorAll('section[id]');
+  const links    = document.querySelectorAll('.nav-links a');
+  function update() {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 240) current = s.id;
+    });
+    links.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+})();
+
 const statsObs = new IntersectionObserver(entries => {
   if (entries[0].isIntersecting) {
-    animCount(document.getElementById('stat2'), 0, '');
-    animCount(document.getElementById('stat3'), 4, '');
+    animCount(document.getElementById('stat1'), 3,  '');
+    animCount(document.getElementById('stat3'), 4,  '');
+    animCount(document.getElementById('stat4'), 24, 'hs', 3200);
     statsObs.disconnect();
   }
 }, { threshold: 0.8 });
