@@ -345,20 +345,44 @@
     }
     .stats-inner {
       display: flex; justify-content: center;
-      flex-wrap: wrap;
+      flex-wrap: wrap; gap: 16px;
     }
     .stat {
-      text-align: center;
-      padding: 0 56px;
+      position: relative;
+      background: var(--bg-white);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px 96px 24px 26px;
+      min-width: 200px;
+      overflow: hidden;
+      text-align: left;
+      flex: 0 0 auto;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
     }
-    .stat:not(:last-child) {
-      border-right: 1px solid var(--border);
+    .stat-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 100px;
+      margin-bottom: 14px;
+      background: rgba(31,95,174,0.08); color: var(--accent);
     }
+    .stat-badge--green  { background: rgba(22,163,74,0.09);  color: #16a34a; }
+    .stat-badge--amber  { background: rgba(217,119,6,0.09);  color: #d97706; }
+    .stat-badge--purple { background: rgba(124,58,237,0.09); color: #7c3aed; }
     .stat strong {
       display: block; font-size: 40px; font-weight: 800;
       color: #0E1114; line-height: 1;
     }
-    .stat span { font-size: 13px; color: var(--text-muted); margin-top: 6px; display: block; }
+    .stat > span {
+      font-size: 13px; color: var(--text-muted);
+      margin-top: 6px; display: block;
+    }
+    .stat-icon {
+      position: absolute; right: -10px; bottom: -10px;
+      font-size: 84px; line-height: 1;
+      color: rgba(11,32,69,0.08); pointer-events: none;
+    }
     .stat-next, .stat-prev { display: none; }
 
     .scroll-hint {
@@ -970,40 +994,18 @@
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
-        gap: 0;
-        padding: 0 28px;
+        gap: 12px;
+        padding: 8px 20px;
         justify-content: flex-start;
       }
       .stats-inner::-webkit-scrollbar { display: none; }
       .stats-section { padding: 24px 0; }
       .stat {
-        flex: 0 0 80vw;
-        scroll-snap-align: center;
-        padding: 20px 20px;
-        position: relative;
-        border-right: none;
+        flex: 0 0 72vw;
+        scroll-snap-align: start;
       }
-      .stat-next, .stat-prev {
-        display: flex;
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        background: none;
-        border: none;
-        color: rgba(11,32,69,0.35);
-        font-size: 16px;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        z-index: 3;
-        transition: color 0.2s;
-        padding: 4px;
-      }
-      .stat-next { right: -14px; }
-      .stat-prev { left: -14px; }
-      .stat-next:hover, .stat-prev:hover { color: var(--primary); }
-      .stat strong { font-size: 44px; }
-      .stat span { font-size: 14px; }
+      .stat-next, .stat-prev { display: none; }
+      .stat strong { font-size: 40px; }
 
       .section { padding: 72px 0; }
       .nav-links { display: none; }
@@ -1232,26 +1234,39 @@
 <div class="stats-section">
   <div class="container">
     <div class="stats-inner">
+
       <div class="stat">
+        <div class="stat-badge"><i class="fas fa-plane"></i> Flota activa</div>
         <strong id="stat1">0</strong>
         <span>Aeronaves disponibles</span>
+        <div class="stat-icon"><i class="fas fa-plane-departure"></i></div>
         <button class="stat-next" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
       </div>
+
       <div class="stat">
-        <strong id="stat2">0</strong>
-        <span>Tiempo de espera</span>
+        <div class="stat-badge"><i class="fas fa-bolt"></i> Sin demoras</div>
+        <strong>0<small style="font-size:18px;font-weight:700;margin-left:2px">min</small></strong>
+        <span>Tiempo de espera en pista</span>
+        <div class="stat-icon"><i class="fas fa-ticket-alt"></i></div>
         <button class="stat-next" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
       </div>
+
       <div class="stat">
+        <div class="stat-badge"><i class="fas fa-globe-americas"></i> Alcance global</div>
         <strong id="stat3">0</strong>
         <span>Continentes alcanzados</span>
+        <div class="stat-icon"><i class="fas fa-globe-americas"></i></div>
         <button class="stat-next" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
       </div>
+
       <div class="stat">
-        <button class="stat-prev" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
+        <div class="stat-badge"><i class="fas fa-clock"></i> Siempre activos</div>
         <strong id="stat4">0hs</strong>
-        <span>Disponibilidad</span>
+        <span>Horas de disponibilidad</span>
+        <div class="stat-icon"><i class="fas fa-headset"></i></div>
+        <button class="stat-prev" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
       </div>
+
     </div>
   </div>
 </div>
@@ -1337,7 +1352,7 @@
 
       <div class="service-row reveal reveal-d1">
         <div class="svc-canvas-wrap">
-          <img class="svc-plane-img" src="image/piper archer/FP_Piper-Archer-II-Article-10.jpg" alt="Piper Archer III">
+          <img class="svc-plane-img" src="image/piper archer/piper-archer.webp" alt="Piper Archer III">
           <div class="svc-canvas-label">Piper<span>Archer III</span></div>
         </div>
         <div class="svc-info">
@@ -1361,7 +1376,7 @@
 
       <div class="service-row reveal reveal-d2">
         <div class="svc-canvas-wrap">
-          <img class="svc-plane-img" src="image/learjet 60/learget 60.jpg" alt="Learjet 60">
+          <img class="svc-plane-img" src="image/learjet 60/learjet-60-avion.webp" alt="Learjet 60">
           <div class="svc-canvas-label">Learjet<span>60</span></div>
         </div>
         <div class="svc-info">
@@ -1385,7 +1400,7 @@
 
       <div class="service-row reveal reveal-d3">
         <div class="svc-canvas-wrap">
-          <img class="svc-plane-img" src="image/Gulfstream GV/GV-Exterior-JS.jpg" alt="Gulfstream GV">
+          <img class="svc-plane-img" src="image/Gulfstream GV/Gulfstream.webp" alt="Gulfstream GV">
           <div class="svc-canvas-label">Gulfstream<span>GV</span></div>
         </div>
         <div class="svc-info">
@@ -1426,7 +1441,7 @@
       <!-- Piper Archer -->
       <div class="fleet-card reveal reveal-d1">
         <div class="fleet-inner">
-          <div class="fleet-front" style="--img: url('image/piper archer/FP_Piper-Archer-II-Article-10.jpg')">
+          <div class="fleet-front" style="--img: url('https://images.pexels.com/photos/7116551/pexels-photo-7116551.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80')">
             <div class="fleet-flip-badge">Ver specs →</div>
             <div class="fleet-front-info">
               <h3>Piper Archer</h3>
@@ -1450,7 +1465,7 @@
       <!-- Learjet 60 -->
       <div class="fleet-card reveal reveal-d2">
         <div class="fleet-inner">
-          <div class="fleet-front" style="--img: url('image/learjet 60/learget 60.jpg')">
+          <div class="fleet-front" style="--img: url('https://images.unsplash.com/photo-1672626701704-9a6473281a93?w=1200&q=80')">
             <div class="fleet-flip-badge">Ver specs →</div>
             <div class="fleet-front-info">
               <h3>Learjet 60</h3>
@@ -1474,7 +1489,7 @@
       <!-- Gulfstream GV -->
       <div class="fleet-card reveal reveal-d3">
         <div class="fleet-inner">
-          <div class="fleet-front" style="--img: url('image/Gulfstream GV/GV-Exterior-JS.jpg')">
+          <div class="fleet-front" style="--img: url('https://images.unsplash.com/photo-1770620562966-8414ba9b1f77?w=1200&q=80')">
             <div class="fleet-flip-badge">Ver specs →</div>
             <div class="fleet-front-info">
               <h3>Gulfstream GV</h3>
@@ -1579,7 +1594,7 @@
 
       <div class="about-visual reveal-left">
         <div class="about-photo">
-          <img src="https://images.unsplash.com/photo-1614494151557-b3c4d7e0c98c?w=800&q=80" alt="Nuestra operación">
+          <img src="https://images.pexels.com/photos/4269510/pexels-photo-4269510.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80" alt="Nuestra operación">
         </div>
         <div class="about-badge">
           <strong>ANAC</strong>
