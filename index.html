@@ -267,7 +267,7 @@
     .hero-title {
       font-size: clamp(40px, 5.5vw, 80px);
       font-weight: 700; line-height: 1.0;
-      letter-spacing: -2.5px; margin-bottom: 24px;
+      letter-spacing: -2.5px; margin-bottom: 24px; text-shadow: 0 2px 16px rgba(0,0,0,0.5);
       opacity: 0; animation: heroUp 0.8s 0.30s var(--transition) forwards;
     }
     .hero-title .t-white { display: block; color: #fff; }
@@ -284,7 +284,7 @@
 
     .hero-sub {
       font-size: clamp(15px, 1.5vw, 18px);
-      color: rgba(255,255,255,0.65); line-height: 1.65;
+      color: #fafafa; line-height: 1.65; text-shadow: 0 1px 8px rgba(0,0,0,0.45);
       max-width: 480px; margin: 0 0 40px;
       opacity: 0; animation: heroUp 0.8s 0.45s var(--transition) forwards;
     }
@@ -361,8 +361,8 @@
     }
     .stat-badge {
       display: inline-flex; align-items: center; gap: 5px;
-      font-size: 9px; font-weight: 700;
-      letter-spacing: 1.5px; text-transform: uppercase;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.3px; text-transform: none;
       padding: 4px 10px; border-radius: 100px;
       margin-bottom: 14px;
       background: rgba(31,95,174,0.08); color: var(--accent);
@@ -379,9 +379,17 @@
       margin-top: 6px; display: block;
     }
     .stat-icon {
-      position: absolute; right: -10px; bottom: -10px;
-      font-size: 84px; line-height: 1;
-      color: rgba(11,32,69,0.08); pointer-events: none;
+      position: absolute; right: -8px; bottom: -8px;
+      font-size: 72px; line-height: 1;
+      pointer-events: none;
+      transform: rotate(-8deg) translateY(-4px);
+      filter: drop-shadow(0 8px 18px currentColor);
+      opacity: 0.72;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .stat:hover .stat-icon {
+      transform: rotate(-8deg) translateY(-10px);
+      opacity: 0.9;
     }
     .stat-next, .stat-prev { display: none; }
 
@@ -1208,9 +1216,7 @@
       </h1>
 
       <p class="hero-sub">
-        Piper Archer, Learjet 60 o Gulfstream GV.<br>
-        Desde un vuelo bautismo hasta cruzar el Atlántico. <br>
-        Vos elegís.
+        El placer de compartir el viaje con las personas que querés.
       </p>
 
       <div class="hero-ctas">
@@ -1239,7 +1245,7 @@
         <div class="stat-badge"><i class="fas fa-plane"></i> Flota activa</div>
         <strong id="stat1">0</strong>
         <span>Aeronaves disponibles</span>
-        <div class="stat-icon"><i class="fas fa-plane-departure"></i></div>
+        <div class="stat-icon" style="color:#1f5fae"><i class="fas fa-plane"></i></div>
         <button class="stat-next" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
       </div>
 
@@ -1247,7 +1253,7 @@
         <div class="stat-badge"><i class="fas fa-bolt"></i> Sin demoras</div>
         <strong>0<small style="font-size:18px;font-weight:700;margin-left:2px">min</small></strong>
         <span>Tiempo de espera en pista</span>
-        <div class="stat-icon"><i class="fas fa-ticket-alt"></i></div>
+        <div class="stat-icon" style="color:#1f5fae"><i class="fas fa-bolt"></i></div>
         <button class="stat-next" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
       </div>
 
@@ -1255,7 +1261,7 @@
         <div class="stat-badge"><i class="fas fa-globe-americas"></i> Alcance global</div>
         <strong id="stat3">0</strong>
         <span>Continentes alcanzados</span>
-        <div class="stat-icon"><i class="fas fa-globe-americas"></i></div>
+        <div class="stat-icon" style="color:#1f5fae"><i class="fas fa-globe-americas"></i></div>
         <button class="stat-next" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
       </div>
 
@@ -1263,7 +1269,7 @@
         <div class="stat-badge"><i class="fas fa-clock"></i> Siempre activos</div>
         <strong id="stat4">0hs</strong>
         <span>Horas de disponibilidad</span>
-        <div class="stat-icon"><i class="fas fa-headset"></i></div>
+        <div class="stat-icon" style="color:#1f5fae"><i class="fas fa-headset"></i></div>
         <button class="stat-prev" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
       </div>
 
@@ -1281,7 +1287,7 @@
     <div class="why-left reveal-left">
       <span class="section-tag">¿Por qué vuelo privado?</span>
       <h2 class="section-title" style="margin-top:14px">Hay momentos que merecen otro nivel de comodidad</h2>
-      <p class="section-subtitle" style="margin-top:14px">Un vuelo privado no es solo lujo. Es eficiencia, privacidad y llegar exactamente cuando necesitás.</p>
+      <p class="section-subtitle" style="margin-top:14px">Abordás en minutos, llegás directo, sin escalas ni demoras. Volar privado no es un lujo, es la forma más inteligente de viajar.</p>
     </div>
 
     <!-- RIGHT: stacking cards -->
@@ -1292,7 +1298,7 @@
         </div>
         <div class="why-icon"><i class="fas fa-futbol"></i></div>
         <h3>Eventos y partidos</h3>
-        <p>Volá a Córdoba para el partido del domingo y volvés esa misma noche. Sin escalas, sin conexiones, sin apuro.</p>
+        <p>Volá para ver el partido con el confort y la seguridad de llegar a tiempo. Viví la previa desde el avión.</p>
       </div>
 
       <div class="why-card">
@@ -1309,7 +1315,7 @@
         </div>
         <div class="why-icon"><i class="fas fa-glass-cheers"></i></div>
         <h3>Despedidas y cumpleaños</h3>
-        <p>Escapadas grupales memorables: Uruguay, Mendoza, cualquier destino. Toda la experiencia, sin trámites.</p>
+        <p>Escapadas grupales memorables, elegí el destino y empezá a vivir la experiencia, sin trámites.</p>
       </div>
       <div class="why-card">
         <div class="why-card-img">
@@ -1317,7 +1323,7 @@
         </div>
         <div class="why-icon"><i class="fas fa-bolt"></i></div>
         <h3>Traslados eficientes</h3>
-        <p>Cuando tu tiempo vale más que el costo del billete. Llegás en una fracción del tiempo habitual.</p>
+        <p>Tenemos el avión para cada ocasión, grupos grandes y chicos, siempre hay una opción a tu medida.</p>
       </div>
     </div>
 
